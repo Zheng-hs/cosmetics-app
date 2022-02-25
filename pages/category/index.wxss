@@ -1,0 +1,63 @@
+/* pages/category/index.wxss */
+page {
+  height: 100%;
+}
+.cates {
+  height: 100%;
+}
+.cates .cates_container {
+  height: calc(100vh - 90rpx);
+  display: flex;
+}
+.cates .cates_container .left_menu {
+  flex: 2;
+}
+.cates .cates_container .left_menu .menu_item {
+  height: 80rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30rpx;
+}
+.cates .cates_container .left_menu .active {
+  color: var(--themeColor);
+  border-left: 5rpx solid currentColor;
+}
+.cates .cates_container .right_content {
+  flex: 6;
+}
+.cates .cates_container .right_content .goods_group .goods_title {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.cates .cates_container .right_content .goods_group .goods_title .title {
+  border: 1rpx solid #c8c8c8;
+  padding: 5rpx 10rpx;
+  margin: 10rpx 5rpx;
+  border-radius: 5rpx;
+}
+.cates .cates_container .right_content .goods_group .goods_title .active {
+  background-color: var(--themeColor);
+  color: #fff;
+  border: 0;
+}
+.cates .cates_container .right_content .goods_group .goods_list {
+  display: flex;
+  flex-wrap: wrap;
+}
+.cates .cates_container .right_content .goods_group .goods_list navigator {
+  width: 33.33%;
+  text-align: center;
+  margin: 10rpx 0;
+}
+.cates .cates_container .right_content .goods_group .goods_list navigator image {
+  width: 50%;
+  height: 70%;
+}
+.cates .cates_container .right_content .goods_group .goods_list navigator .goods_name {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}

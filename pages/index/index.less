@@ -1,0 +1,126 @@
+/**index.wxss**/
+.index_swiper {
+  swiper {
+    width: 750rpx;
+    height: 340rpx;
+    image {
+      width: 100%;
+    }
+  }
+}
+
+.index_cate{
+  display: flex;
+  // height: 100rpx;
+  navigator {
+    flex: 1;
+    padding: 20rpx;
+    // height: 100%;
+    text-align: center;
+    image {
+      width: 70%;
+      // height: 100%;
+    }
+    view {
+      text-align: center;
+    }
+  }
+}
+.hot_title {
+  font-size: 32rpx;
+  font-weight: bolder;
+  margin: 10rpx 20rpx;
+}
+.hot_goods{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  navigator {
+    // flex: 2;
+    padding: 20rpx;
+    width: 240rpx;
+    text-align: center;
+
+    image {
+      width: 100%;
+      // height: 100%;
+    }
+
+    view {
+      text-align: center;
+       display: -webkit-box;
+       overflow: hidden;
+       -webkit-box-orient: vertical;
+       -webkit-line-clamp: 2;
+    }
+    .goods_price {
+      color: red;
+      font-weight: 400;
+    }
+  }
+}
+.index_floor {
+  .floor_group {
+    .floor_title {
+      padding: 10rpx 0;
+      image {
+        width: 80rpx;
+      }
+    }
+
+    .floor_list {
+      overflow: hidden;
+      navigator {
+        float: left;
+        width: 33.33%;
+
+        // 后四个超链接
+        &:nth-last-child(-n+4) {
+          height: 27.727vw;
+          border-left: 10rpx solid #fff;
+        }
+        &:nth-child(2),
+        &:nth-child(3) {
+          border-bottom: 10rpx solid #fff ;
+        }
+        image {
+          width: 100%;
+          height: 100%;
+        }
+      }
+    }
+  }
+}
+
+.hot_articles {
+  navigator {
+    display: flex;
+    border-bottom: 1rpx solid #eee;
+    image {
+      // width: 120rpx;
+      flex: 1;
+    }
+    .left {
+      flex: 2;
+      .articles_title {
+        margin: 20rpx;
+        font-size: 32rpx;
+        // font-weight: bold;
+      }
+       .articles_text {
+         display: flex;
+         justify-content: space-around;
+         font-size: 26rpx;
+         color: rgb(200, 200, 200);
+
+         .time {
+           
+           // font-size: 20rpx;
+         }
+         .view_num {
+         }
+       }
+    }
+  }
+}
