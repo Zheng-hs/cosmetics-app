@@ -9,18 +9,89 @@ Page({
    * 页面的初始数据
    */
   data: {
-    goodsObj:{},
-    isCollect:false,
+    goodsObj: {},
+    isCollect: false,
     coupon: '',
-    evaluationList: []
+    evaluationList: [],
+    like: [],
+    goodsNorms: [],
+    showModalStatus: false,
+    currentIndex: 0,
+    goodsnum: 1,
+    normvalue: ''
   },
-  GoodsInfo:{},
+  GoodsInfo: {},
+  num: 1,
+  list: [],
+  i: 0,
+  powerDrawer: function (e) {
+    var currentStatu = e.currentTarget.dataset.statu;
+    this.util(currentStatu)
+  },
+  util: function (currentStatu) {
+    /* 动画部分 */
+    // 第1步：创建动画实例 
+    var animation = wx.createAnimation({
+      duration: 200, //动画时长
+      timingFunction: "linear", //线性
+      delay: 0 //0则不延迟
+    });
+
+    // 第2步：这个动画实例赋给当前的动画实例
+    this.animation = animation;
+
+    // 第3步：执行第一组动画：Y轴偏移240px后(盒子高度是240px)，停
+    animation.translateY(240).step();
+
+    // 第4步：导出动画对象赋给数据对象储存
+    this.setData({
+      animationData: animation.export()
+    })
+
+    // 第5步：设置定时器到指定时候后，执行第二组动画
+    setTimeout(function () {
+      // 执行第二组动画：Y轴不偏移，停
+      animation.translateY(0).step()
+      // 给数据对象储存的第一组动画，更替为执行完第二组动画的动画对象
+      this.setData({
+        animationData: animation
+      })
+
+      //关闭抽屉
+      if (currentStatu == "close") {
+        this.setData({
+          showModalStatus: false
+        });
+      }
+    }.bind(this), 200)
+
+    // 显示抽屉
+    if (currentStatu == "open") {
+      this.setData({
+        showModalStatus: true
+      });
+    }
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    const evaluationList = request({
-      url: "/api/v1/comment/search",
+    request({
+      url: "/api/v2/app/notToken/getComment",
+      method: 'POST',
+      data: {
+        goodsId: options.goodsId
+      }
+    }).then(res => {
+      console.log(res);
+      this.setData({
+        evaluationList: res.data.data
+      })
+    });
+
+    request({
+      url: "/api/v2/app/notToken/searchCoupon",
       method: 'POST',
       data: {
         goodsId: options.goodsId
@@ -28,26 +99,122 @@ Page({
     }).then(res => {
       // console.log(res);
       this.setData({
-        evaluationList: res.data.data
-      })
-    });
 
-    const coupon = request({
-      url: "/api/v2/app/notToken/searchCoupon",
-        method: 'POST',
-        data: {
-          goodsId: options.goodsId
-        }
-    }).then(res=>{
-      // console.log(res);
-      this.setData({
-        
         coupon: res.data.data
       })
     })
+
+    request({
+      url: '/api/v2/app/notToken/getGoodsNorms' + '?' + 'goodsId=' + options.goodsId,
+      method: 'POST',
+
+    }).then(res => {
+      this.list = res.data[0].goodsNormsEntityList
+      this.setData({
+
+        goodsNorms: res.data[0].goodsNormsEntityList
+      })
+    })
+
+    request({
+      url: "/api/v2/app/notToken/getUserLike"
+    }).then(res => {
+      this.setData({
+        like: res.data
+      })
+    })
   },
+  addCart() {
+    if (!wx.getStorageSync("token")) {
+      wx.showModal({
+        title: '提示',
+        content: '请先登录',
+        success(res) {
+          if (res.confirm) {
+             wx.navigateTo({
+               url: '/pages/login/index'
+             })
+          } else if (res.cancel) {
+             
+          }
+        }
+      })
+    } else {
+      if (this.list[this.i].goodsStock <= 0) {
+        wx.showToast({
+          title: '商品库存不足',
+          icon: 'error',
+          // 防止用户手抖 疯狂点击按钮
+          mask: true,
+          success: (result) => {
 
+          },
+          fail: () => {},
+          complete: () => {}
+        });
+      } else {
+        request({
+          url: "/api/v1/cart/add",
+          method: 'POST',
+          data: {
+            goodsId: this.GoodsInfo.goodsId,
+            goodsName: this.GoodsInfo.goodsName,
+            goodsNormsValue: this.list[this.i].normsValue,
+            goodsAmount: parseInt(this.num),
+            goodsOldPrice: this.GoodsInfo.goodsOldPrice,
+            goodsNewPrice: this.GoodsInfo.goodsNewPrice
+          }
+        }).then(res => {
+          //弹窗提示
+          wx.showToast({
+            title: '加入购物车成功',
+            icon: 'success',
+            // 防止用户手抖 疯狂点击按钮
+            mask: true,
+            success: (result) => {
 
+            },
+            fail: () => {},
+            complete: () => {}
+          });
+          this.setData({
+            showModalStatus: false
+          });
+        })
+      }
+    }
+  },
+  handleItemNumAdd() {
+    if (this.num >= 1) {
+      this.num++
+    }
+    this.setData({
+      goodsnum: this.num
+    })
+  },
+  handleItemNumEdit() {
+    if (this.num > 1) {
+      this.num--;
+    }
+    this.setData({
+      goodsnum: this.num
+    })
+  },
+  async handleItemTap(e) {
+    // 1 获取被点击的标题身上的索引
+    // 2 给data中的currentIndex赋值就可以
+    const {
+      index,
+      id
+    } = e.currentTarget.dataset;
+    this.i = index
+    // 重新设置 右侧内容的sroll-view标签距离顶部的距离
+    this.setData({
+      currentIndex: index,
+      normvalue: this.list[this.i].normsValue
+    })
+
+  },
   async getGoodsDetail(goodsId) {
     const goodsObj = await request({
       url: "/api/v2/app/notToken/searchGoods",
@@ -57,8 +224,13 @@ Page({
       }
     });
     this.GoodsInfo = goodsObj.data[0]
+    // 1 获取缓存中的商品收藏的数组
+    let collect = wx.getStorageSync("collect") || [];
+    // 2 判断当前商品是否被收藏
+    let isCollect = collect.some(v => v.goodsId === this.GoodsInfo.goodsId);
     this.setData({
-      goodsObj: this.GoodsInfo
+      goodsObj: this.GoodsInfo,
+      isCollect
     })
   },
   // 点击轮播图 放大预览
@@ -66,25 +238,25 @@ Page({
     // 先构造要预览的图片数组
     const urls = this.GoodsInfo.subImageList.map(v => v)
     // 接收传递过来的url
-    const current=e.currentTarget.dataset.url;
+    const current = e.currentTarget.dataset.url;
     wx.previewImage({
       current,
       urls,
       success: (result) => {
-        
+
       },
       fail: () => {},
       complete: () => {}
     });
-      
+
   },
 
-  handleCartAdd(){
+  handleCartAdd() {
     // 获取缓存中的购物车 数组
-    let cart = wx.getStorageSync("cart")||[];
+    let cart = wx.getStorageSync("cart") || [];
     // 判断商品对象是否存在购物车数组中
-    let index = cart.findIndex(v=>v.goods_id===this.GoodsInfo.goods_id);
-    if(index===-1){
+    let index = cart.findIndex(v => v.goods_id === this.GoodsInfo.goods_id);
+    if (index === -1) {
       // 不存在 第一次添加
       this.GoodsInfo.num = 1;
       this.GoodsInfo.checked = true;
@@ -103,35 +275,35 @@ Page({
       // 防止用户手抖 疯狂点击按钮
       mask: true,
       success: (result) => {
-        
+
       },
       fail: () => {},
       complete: () => {}
     });
-       
+
   },
   // 点击商品收藏
-  handleCollect(){
-    let isCollect=false;
+  handleCollect() {
+    let isCollect = false;
     // 获取缓存中的商品收藏数组
-    let collect=wx.getStorageSync("collect")||[];
+    let collect = wx.getStorageSync("collect") || [];
     // 判断是否收藏
-    let index = collect.findIndex(v=>v.goods_id===this.GoodsInfo.goods_id);
+    let index = collect.findIndex(v => v.goodsId === this.GoodsInfo.goodsId);
     // 当index!=-1表示已被收藏过
-    if(index!==-1) {
+    if (index !== -1) {
       // 已经收藏 在数组中删除该商品
-      collect.splice(index,1);
-      isCollect=false;
+      collect.splice(index, 1);
+      isCollect = false;
       wx.showToast({
         title: '取消成功',
         icon: 'success',
         mask: true
       });
-        
+
     } else {
       // 没收藏
       collect.push(this.GoodsInfo);
-      isCollect=true;
+      isCollect = true;
       wx.showToast({
         title: '收藏成功',
         icon: 'success',
@@ -143,7 +315,7 @@ Page({
     this.setData({
       isCollect
     })
-      
+
   },
   /**
    * 生命周期函数--监听页面初次渲染完成
@@ -156,14 +328,14 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    let pages =  getCurrentPages();
-    let currentPage = pages[pages.length-1];
+    let pages = getCurrentPages();
+    let currentPage = pages[pages.length - 1];
     let options = currentPage.options
     const {
       goodsId
     } = options;
     this.getGoodsDetail(goodsId);
-    
+
   },
 
   /**

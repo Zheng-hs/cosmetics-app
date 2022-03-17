@@ -1,6 +1,6 @@
 <Tabs tabs="{{tabs}}" bindtabsItemChange="handleTabsItemChange">
     <view class="order_main">
-        <view class="order_item" wx:for="{{orders}}" wx:key="order_id">
+        <view class="order_item" wx:for="{{orders}}" wx:key="orderId">
             <view class="order_no_row">
                 <view class="order_no_text">订单编号</view>
                 <view class="order_no_value">{{item.order_number}}</view>

@@ -5,6 +5,9 @@ import {
   showModal,
   showToast
 } from '../../utils/asyncWx.js'
+import {
+  request
+} from "../../request/index.js"
 // pages/cart/index.js
 import regeneratorRuntime from '../../lib/runtime/runtime';
 Page({
@@ -17,9 +20,11 @@ Page({
     cart: [],
     allChecked: false,
     totalPrice: 0,
-    totalNum: 0
+    totalNum: 0,
+    isDelete: true
   },
-
+  cartList:[],
+  deleteList:[],
   /**
    * 生命周期函数--监听页面加载
    */
@@ -90,29 +95,90 @@ Page({
     // 获取缓存中的收货地址
     const address = wx.getStorageSync("address");
     // 获取缓存中的购物车数据
-    const cart = wx.getStorageSync("cart") || [];
+    request({
+      url: '/api/v1/cart/search'
+    }).then(res => {
+     const list = res.data.map((item) => {
+        return Object.assign({}, item, {
+          checked: false
+        });
+      });
+      this.setData({
+        cart: list
+      }); 
+      this.setCart(list) 
+    })
     // 计算全选
     // const allChecked=cart.length?cart.every(v=>v.checked):false;
     this.setData({
       address
     });
-    this.setCart(cart);
   },
   // 商品的选中
   handelItemChange(e) {
-    // 获取被修改的商品的id
-    const goods_id = e.currentTarget.dataset.id;
-    // 获取购物车数组
-    let {
-      cart
-    } = this.data;
-    // 找到被修改的商品对象
-    let index = cart.findIndex(v => v.goods_id === goods_id);
-    cart[index].checked = !cart[index].checked;
+     // 1 获取被修改的商品的id
+     const cartId = e.currentTarget.dataset.id;
+     // 2 获取购物车数组 
+     let {
+       cart
+     } = this.data;
+     // 3 找到被修改的商品对象
+     let index = cart.findIndex(v => v.cartId === cartId);
+     // 4 选中状态取反
+     cart[index].checked = !cart[index].checked;
 
-    this.setCart(cart);
+     this.setCart(cart);
+  },
 
+  handleRemove(){
+    this.cartList.forEach(v => {
+      if (v.checked) {
+        this.deleteList.push(v.cartId);
+      } 
+    })
+    request({
+      url: "/api/v1/cart/delete",
+      method: 'DELETE',
+      data: this.deleteList
+    }).then(res => {
+       request({
+         url: '/api/v1/cart/search'
+       }).then(res => {
+         this.deleteList = [];
+         const list = res.data.map((item) => {
+           return Object.assign({}, item, {
+             checked: false
+           });
+         });
+         this.setData({
+           cart: list
+         });
+         this.setCart(list)
+       })
+       wx.showToast({
+         title: '删除成功',
+         icon: 'success',
+         // 防止用户手抖 疯狂点击按钮
+         mask: true,
+         success: (result) => {
 
+         },
+         fail: () => {},
+         complete: () => {}
+       });
+    });
+  },
+
+  control() {
+    this.setData({
+      isDelete: false
+    })
+  },
+
+  controlsuccess() {
+    this.setData({
+      isDelete: true
+    })
   },
 
   // 设置购物车状态 重新计算 底部工具栏的数据 全选 总价格 购买的数量
@@ -123,8 +189,8 @@ Page({
     let totalNum = 0;
     cart.forEach(v => {
       if (v.checked) {
-        totalPrice += v.num * v.goods_price;
-        totalNum += v.num;
+        totalPrice += v.goodsAmount * v.goodsNewPrice;
+        totalNum += v.goodsAmount;
       } else {
         allChecked = false;
       }
@@ -137,14 +203,14 @@ Page({
       totalPrice,
       totalNum
     });
-    wx.setStorageSync("cart", cart);
+    this.cartList = cart;
   },
   // 商品全选功能
   handleItemAllCheck(){
     // 获取data中的数据
     let {cart,allChecked} = this.data;
     // 修改值
-    allChecked=!allChecked;
+    allChecked = !allChecked;
     // 循环修改cart数组中的商品选中状态
     cart.forEach(v=>v.checked=allChecked);
     // 修改后的值 填充回data或缓存
@@ -157,20 +223,14 @@ Page({
     // 获取购物车数组
     let {cart} = this.data;
     // 找到需要修改的商品的索引
-    const index=cart.findIndex(v=>v.goods_id===id);
+    const index=cart.findIndex(v=>v.goodsId===id);
     // 判断是否要删除
-    if(cart[index].num===1&&operation===-1) {
+    if (cart[index].goodsAmount === 1 && operation === -1) {
       // 弹窗提示
-       const res = await showModal({
-         content: '您是否要删除？'
-       });
-       if (res.confirm) {
-         cart.splice(index, 1);
-         this.setCart(cart);
-       }
+      return;
     } else {
       // 进行修改数量
-      cart[index].num+=operation;
+      cart[index].goodsAmount += operation;
       // 设置回缓存和data
       this.setCart(cart);
     }

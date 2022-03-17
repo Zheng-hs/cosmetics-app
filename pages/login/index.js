@@ -58,7 +58,6 @@ Page({
           }).then(res=>{
             wx.setStorageSync("token", res.data.token);
           })
-          console.log(token);
           // 把token存到缓存
           
           wx.navigateBack({

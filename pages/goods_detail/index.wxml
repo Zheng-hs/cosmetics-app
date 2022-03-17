@@ -5,29 +5,80 @@
         </swiper-item>
     </swiper>
 </view>
-
-<view class="goods_price">¥{{goodsObj.goodsNewPrice}}
-        <text class="goods_oldprice">¥{{goodsObj.goodsOldPrice}}</text>
+<view class="goods_price">
+    ¥{{goodsObj.goodsNewPrice}}
+    <text class="goods_oldprice">¥{{goodsObj.goodsOldPrice}}</text>
 </view>
-
 <view class="goods_name_row">
     <view class="goods_name">{{goodsObj.goodsName}}</view>
 </view>
-
 <view class="goods_evaluation">
     <view class="common_title">
         <view class="common_text">精选评论({{evaluationList.length}})</view>
-        <view class="look_all">
-            查看全部>
-        </view>
+        <view class="look_all">查看全部></view>
     </view>
-    <view class="common_body">
+    <view class="common_body" wx:for="{{evaluationList}}" wx:key="commentId">
         <view class="common_top">
-            <image src="{{evaluationList[0].imgPath}}" mode="widthFix"/>
+            <image src="{{item.imgPath}}" mode="widthFix" />
             <view class="user">
-                <view class="user_name">{{evaluationList[0].commentUser}}</view>
+                <view class="user_name">{{item.commentUser}}</view>
+                <view class="common_time">{{item.createTime}}</view>
             </view>
         </view>
+        <view class="common">{{item.commentContent}}</view>
+    </view>
+</view>
+<view class="goods_like">
+    <view class="hot_title">猜你喜欢</view>
+    <view class="hot_goods">
+        <navigator wx:for="{{like}}" wx:for-item="item" wx:for-index="index" wx:key="goodsId" url="../goods_detail/index?goodsId={{item.goodsId}}">
+            <image class="" src="{{item.mainImage}}" mode="widthFix" lazy-load="false" binderror="" bindload="" />
+            <view>{{item.goodsName}}</view>
+            <view class="goods_prices">¥{{item.goodsOldPrice}}</view>
+        </navigator>
+    </view>
+</view>
+<!-- 规格弹窗 -->
+<!-- mask -->
+<view class="drawer_screen" bindtap="powerDrawer" data-statu="close" wx:if="{{showModalStatus}}"></view>
+<!-- content -->
+<!-- 使用animation属性指定需要执行的动画 -->
+<view animation="{{animationData}}" class="drawer_attr_box" wx:if="{{showModalStatus}}">
+    <!-- drawer content -->
+    <view class="drawer_content">
+        <view class="norm_title">
+            <view class="norm_pic">
+                <image class="" src="{{goodsObj.mainImage}}" mode="widthFix" lazy-load="false" binderror="" bindload="" />
+                <view class="good_price">
+                    <view class="goodsName">{{goodsObj.goodsName}}</view>
+                    <view class="now_price">¥{{goodsObj.goodsNewPrice}}</view>
+                    <view class="old">¥{{goodsObj.goodsOldPrice}}</view>
+                </view>
+            </view>
+        </view>
+        <view class="norm_title">规格</view>
+        <view class="norms">
+                <view   wx:for="{{goodsNorms}}" wx:key="normsId" class="norm_name  {{index===currentIndex?'active' : ''}}"  bindtap="handleItemTap"
+             data-index="{{index}}"
+             data-id="{{item.normsId}}">{{item.normsValue}}</view>
+        </view>
+        <view class="good_num">
+            <view class="buy_num">
+                <view class="buy">购买数量</view>
+                <view class="stock" wx:if="{{goodsNorms[currentIndex].goodsStock>0}}">有货</view>
+                <view class="stock" wx:else>缺货</view>
+            </view>
+            <view class="cart_num_tool">
+                <view class="num_edit" bindtap="handleItemNumEdit">
+                    -
+                </view>
+                <view class="goods_num">{{goodsnum}}</view>
+                <view class="num_edit" bindtap="handleItemNumAdd">
+                    +
+                </view>
+            </view>
+        </view>
+        <view class="sumbit"  bindtap="addCart">确定</view>
     </view>
 </view>
 <view class="btn_tool">
@@ -37,18 +88,19 @@
         <button open-type="contact"></button>
     </view>
     <view class="tool_item">
-        <view class="iconfont icon-yixianshi-"></view>
-        <view>分享</view>
-        <button open-type="share"></button>
+        <view class="goods_collect" bindtap="handleCollect">
+            <text class="iconfont   {{isCollect?'icon-shoucang1':'icon-shoucang'}} "></text>
+            <view class="collect_text">收藏</view>
+        </view>
     </view>
     <navigator open-type="switchTab" url="/pages/cart/index" class="tool_item">
         <view class="iconfont icon-gouwuche"></view>
         <view>购物车</view>
     </navigator>
-    <view class="tool_item  btn_cart" bindtap="handleCartAdd">
+    <view class="tool_item  btn_cart" bindtap="powerDrawer" data-statu="open">
         <view>加入购物车</view>
     </view>
-    <view class="tool_item  btn_buy">
+    <view class="tool_item  btn_buy" bindtap="powerDrawer" data-statu="open">
         <view>立即购买</view>
     </view>
 </view>

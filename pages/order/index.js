@@ -64,11 +64,10 @@ Page({
   // 获取订单列表
   async getOrders(type){
     const res = await request({
-      url: "/my/orders/all",
-      data:{type}
+      url: "/api/v1/order/searchUserOrder"
     })
     this.setData({
-      orders: res.orders.map(v => ({
+      orders: res.data.map(v => ({
         ...v,
         create_time_cn: new Date(v.create_time * 1000).toLocaleString()
       }))
@@ -87,10 +86,19 @@ Page({
   onShow: function (options) {
     const token = wx.getStorageSync("token");
     if(!token){
-      wx.navigateTo({
-        url: '/pages/auth/index'
-      });
-      return
+      wx.showModal({
+        title: '提示',
+        content: '请先登录',
+        success(res) {
+          if (res.confirm) {
+            wx.navigateTo({
+              url: '/pages/login/index'
+            })
+          } else if (res.cancel) {
+
+          }
+        }
+      })
     }
     // 获取当前的小程序的页面栈-数组 长度最大是10个页面
     // 数组中索引最大 的就是当前页面
