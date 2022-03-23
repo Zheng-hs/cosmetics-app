@@ -7,6 +7,9 @@ export const request=(params)=> {
         header["Authorization"]=wx.getStorageSync("token");
           
     }
+    if (wx.getStorageSync("token")) {
+        header["Authorization"] = wx.getStorageSync("token");
+    }
 
 
 

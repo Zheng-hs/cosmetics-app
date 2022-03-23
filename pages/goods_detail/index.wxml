@@ -12,6 +12,12 @@
 <view class="goods_name_row">
     <view class="goods_name">{{goodsObj.goodsName}}</view>
 </view>
+<view class="coupn">
+    <view class="coupn_list">
+        <view class="coupn_content" wx:for="{{coupon}}" wx:key="couponId">{{item.couponName}}</view>
+    </view>
+    <view class="getcoupn"  bindtap="powerDrawer1"  data-statu="open">领券></view>
+</view>
 <view class="goods_evaluation">
     <view class="common_title">
         <view class="common_text">精选评论({{evaluationList.length}})</view>
@@ -36,6 +42,26 @@
             <view>{{item.goodsName}}</view>
             <view class="goods_prices">¥{{item.goodsOldPrice}}</view>
         </navigator>
+    </view>
+</view>
+<view class="drawer_screen" bindtap="powerDrawer1" data-statu="close" wx:if="{{showCoupon}}"></view>
+<!-- content -->
+<!-- 使用animation属性指定需要执行的动画 -->
+<view animation="{{animationData1}}" class="drawer_attr_box" wx:if="{{showCoupon}}">
+    <!-- drawer content -->
+    <view class="drawer_content">
+        <view class="drawer_title">优惠券</view>
+        <view class="drawer_coupon" wx:for="{{coupon}}"  wx:key="couponId" >
+            <view class="coupon_num">¥{{item.couponValue}}</view>
+            <view class="coupon_center">
+                <view class="coupon_name">{{item.couponName}}</view>
+                <view class="start_time">{{item.collectionStartTime}}</view>
+                <view class="end_time">{{item.collectionEndTime}}</view>
+            </view>
+            <view class="lingqu"  bindtap="getCoupon" wx:if="{{item.status==0}}" data-id="{{item.couponId}}">立刻抢</view>
+            <view class="yilingqu" wx:else>已领取</view>
+        </view>
+        <view class="sumbit"  bindtap="powerDrawer1" data-statu="close">我知道了</view>
     </view>
 </view>
 <!-- 规格弹窗 -->
@@ -81,6 +107,48 @@
         <view class="sumbit"  bindtap="addCart">确定</view>
     </view>
 </view>
+<!-- mask -->
+<view class="drawer_screen" bindtap="powerDrawer2" data-statu="close" wx:if="{{showModalStatus1}}"></view>
+<!-- content -->
+<!-- 使用animation属性指定需要执行的动画 -->
+<view animation="{{animationData}}" class="drawer_attr_box" wx:if="{{showModalStatus1}}">
+    <!-- drawer content -->
+    <view class="drawer_content">
+        <view class="norm_title">
+            <view class="norm_pic">
+                <image class="" src="{{goodsObj.mainImage}}" mode="widthFix" lazy-load="false" binderror="" bindload="" />
+                <view class="good_price">
+                    <view class="goodsName">{{goodsObj.goodsName}}</view>
+                    <view class="now_price">¥{{goodsObj.goodsNewPrice}}</view>
+                    <view class="old">¥{{goodsObj.goodsOldPrice}}</view>
+                </view>
+            </view>
+        </view>
+        <view class="norm_title">规格</view>
+        <view class="norms">
+                <view   wx:for="{{goodsNorms}}" wx:key="normsId" class="norm_name  {{index===currentIndex?'active' : ''}}"  bindtap="handleItemTap"
+             data-index="{{index}}"
+             data-id="{{item.normsId}}">{{item.normsValue}}</view>
+        </view>
+        <view class="good_num">
+            <view class="buy_num">
+                <view class="buy">购买数量</view>
+                <view class="stock" wx:if="{{goodsNorms[currentIndex].goodsStock>0}}">有货</view>
+                <view class="stock" wx:else>缺货</view>
+            </view>
+            <view class="cart_num_tool">
+                <view class="num_edit" bindtap="handleItemNumEdit">
+                    -
+                </view>
+                <view class="goods_num">{{goodsnum}}</view>
+                <view class="num_edit" bindtap="handleItemNumAdd">
+                    +
+                </view>
+            </view>
+        </view>
+        <view class="sumbit"  bindtap="buy">确定</view>
+    </view>
+</view>
 <view class="btn_tool">
     <view class="tool_item">
         <view class="iconfont icon-kefu"></view>
@@ -89,7 +157,7 @@
     </view>
     <view class="tool_item">
         <view class="goods_collect" bindtap="handleCollect">
-            <text class="iconfont   {{isCollect?'icon-shoucang1':'icon-shoucang'}} "></text>
+            <text class="iconfont   {{isCollect?'icon-star-full':'icon-star'}} "></text>
             <view class="collect_text">收藏</view>
         </view>
     </view>
@@ -100,7 +168,7 @@
     <view class="tool_item  btn_cart" bindtap="powerDrawer" data-statu="open">
         <view>加入购物车</view>
     </view>
-    <view class="tool_item  btn_buy" bindtap="powerDrawer" data-statu="open">
+    <view class="tool_item  btn_buy" bindtap="powerDrawer2" data-statu="open">
         <view>立即购买</view>
     </view>
 </view>

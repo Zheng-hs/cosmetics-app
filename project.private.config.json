@@ -51,8 +51,8 @@
           "name": "商品详情",
           "pathName": "pages/goods_detail/index",
           "query": "goodsId=0d6ff155e01b4a358eff748905919546",
-          "scene": null,
-          "launchMode": "default"
+          "launchMode": "default",
+          "scene": null
         },
         {
           "name": "购物车",
@@ -116,6 +116,20 @@
           "query": "",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "编辑收货地址",
+          "pathName": "pages/add/index",
+          "query": "",
+          "scene": null,
+          "launchMode": "default"
+        },
+        {
+          "name": "收货地址",
+          "pathName": "pages/address/index",
+          "query": "",
+          "scene": null,
+          "launchMode": "default"
         }
       ]
     }

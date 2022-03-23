@@ -36,7 +36,7 @@ Page({
     wx.getUserProfile({
       desc: '授权登录', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
       success: async (res) => {
-        console.log(res);
+        // console.log(res);
         wx.setStorageSync("userinfo", res.userInfo);
         try {
           const {

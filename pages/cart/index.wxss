@@ -30,6 +30,8 @@ page {
 .cart_content .cart_title .control {
   background-color: var(--themeColor);
   color: #fff;
+  padding: 5rpx 10rpx;
+  border-radius: 5rpx;
 }
 .cart_content .cart_main .cart_item {
   display: flex;

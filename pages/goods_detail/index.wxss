@@ -25,6 +25,26 @@ page {
   color: #c8c8c8;
   font-size: 30rpx;
 }
+.coupn {
+  background-color: #fff;
+  display: flex;
+  justify-content: space-between;
+  padding: 10rpx;
+}
+.coupn .coupn_list {
+  display: flex;
+}
+.coupn .coupn_list .coupn_content {
+  background-color: #ffd9dd;
+  color: var(--themeColor);
+  border-radius: 30rpx;
+  padding: 0 20rpx;
+  margin: 10rpx;
+}
+.coupn .getcoupn {
+  color: var(--themeColor);
+  margin-right: 10rpx;
+}
 .goods_name_row {
   display: flex;
   background-color: #fff;
@@ -91,7 +111,7 @@ page {
   justify-content: center;
   align-items: center;
 }
-.btn_tool .tool_item .goods_collect .icon-shoucang1 {
+.btn_tool .tool_item .goods_collect .icon-star-full {
   color: orangered;
 }
 .btn_tool .btn_cart {
@@ -221,6 +241,38 @@ page {
   height: 800rpx;
   overflow-y: scroll;
 }
+.drawer_coupon {
+  background-color: #ffd9dd;
+  color: var(--themeColor);
+  border-radius: 10rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin: 20rpx;
+  padding: 20rpx;
+}
+.drawer_coupon .coupon_num {
+  font-size: 40rpx;
+  font-weight: 400;
+}
+.drawer_coupon .coupon_center .start_time {
+  font-size: 20rpx;
+}
+.drawer_coupon .coupon_center .end_time {
+  font-size: 20rpx;
+}
+.drawer_coupon .lingqu {
+  background-color: var(--themeColor);
+  color: #fff;
+  padding: 10rpx;
+  border-radius: 15rpx;
+}
+.drawer_coupon .yilingqu {
+  background-color: #deaaa5;
+  color: #fff;
+  padding: 10rpx;
+  border-radius: 15rpx;
+}
 .norm_pic {
   display: flex;
 }
@@ -293,6 +345,7 @@ page {
   padding: 20rpx;
   font: 42rpx "microsoft yahei";
   text-align: center;
+  border-bottom: 1px solid #eee;
 }
 .line {
   border-bottom: 1px solid #f8f8f8;

@@ -2,16 +2,34 @@
     <view class="order_main">
         <view class="order_item" wx:for="{{orders}}" wx:key="orderId">
             <view class="order_no_row">
-                <view class="order_no_text">订单编号</view>
-                <view class="order_no_value">{{item.order_number}}</view>
+                <view class="order_no_value">{{item.orderId}}</view>
+                <view class="order_status" wx:if="{{item.status==1}}">已下单</view>
+                <view class="order_status" wx:elif="{{item.status==2}}">已发货</view>
+                <view class="order_status" wx:elif="{{item.status==3}}">已到货</view>
+                <view class="order_status" wx:elif="{{item.status==4}}">已收货未评价</view>
+                <view class="order_status" wx:elif="{{item.status==5}}">已收货已评价</view>
+                <view class="order_status" wx:elif="{{item.status==6}}">退款中</view>
+                <view class="order_status" wx:else>已退款</view>
             </view>
             <view class="order_price_row">
-                <view class="order_price_text">订单价格</view>
-                <view class="order_price_value">¥{{item.order_price}}</view>
+                <image class="" src="{{item.imgPath}}" mode="widthFix" lazy-load="false" binderror="" bindload="" />
+                <view class="order_price_text">
+                    <view class="goods_name">{{item.goodsName}}</view>
+                    <view class="good">
+                        <view class="goods_price">
+                            <view class="goods_value">{{item.goodsNormsValue}}</view>
+                            <view class="goods_num">×{{item.goodsCnt}}</view>
+                        </view>
+                        <view class="order_price_value">¥{{item.goodsPayPrice}}</view>
+                    </view>
+                </view>
             </view>
             <view class="order_time_row">
-                <view class="order_time_text">订单日期</view>
-                <view class="order_time_value">{{item.create_time_cn}}</view>
+                <view class="order_time_value">{{item.createTime}}</view>
+                <view class="btn" wx:if="{{item.status==4}}" bindtap="gostar" data-uid="{{item.goodsId}}"  data-id="{{item.orderId}}">评价</view>
+                <view class="btn" wx:elif="{{item.status==2}}" bindtap="confrim"  data-id="{{item.orderId}}">确认收货</view>
+                <view wx:elif="{{item.status==6||item.status==7||item.status==5}}"></view>
+                <view class="btn" wx:else bindtap="refund" data-id="{{item.orderId}}">退款</view>
             </view>
         </view>
     </view>

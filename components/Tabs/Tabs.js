@@ -1,4 +1,7 @@
 // components/Tabs/Tabs.js
+import {
+  request
+} from "../../request/index.js"
 Component({
   /**
    * 组件的属性列表
@@ -21,9 +24,9 @@ Component({
    * 组件的方法列表
    */
   methods: {
-    handleItemTap(e) {
+    async handleItemTap(e) {
       const {index} = e.currentTarget.dataset;
-      this.triggerEvent("tabsItemChange",{index})
+      this.triggerEvent("tabsItemChange",{index});
     }
   }
 })

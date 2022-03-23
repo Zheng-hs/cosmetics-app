@@ -1,5 +1,5 @@
 {
-  "pages":[
+  "pages": [
     "pages/index/index",
     "pages/category/index",
     "pages/goods_list/index",
@@ -12,13 +12,15 @@
     "pages/feedback/index",
     "pages/login/index",
     "pages/auth/index",
-    "pages/pay/index"
+    "pages/pay/index",
+    "pages/address/index",
+    "pages/add/index"
   ],
-  "window":{
-    "backgroundTextStyle":"light",
+  "window": {
+    "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#eb4450",
     "navigationBarTitleText": "完子之家",
-    "navigationBarTextStyle":"white"
+    "navigationBarTextStyle": "white"
   },
   "tabBar": {
     "color": "#999",
@@ -53,8 +55,6 @@
       }
     ]
   },
-  
-    
   "style": "v2",
   "sitemapLocation": "sitemap.json"
 }

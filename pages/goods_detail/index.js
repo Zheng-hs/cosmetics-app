@@ -16,9 +16,12 @@ Page({
     like: [],
     goodsNorms: [],
     showModalStatus: false,
+    showModalStatus1: false,
+    showCoupon: false,
     currentIndex: 0,
     goodsnum: 1,
-    normvalue: ''
+    normvalue: '',
+    isReceive: true
   },
   GoodsInfo: {},
   num: 1,
@@ -72,6 +75,102 @@ Page({
       });
     }
   },
+  powerDrawer2: function (e) {
+    var currentStatu = e.currentTarget.dataset.statu;
+    this.util2(currentStatu)
+  },
+  util2: function (currentStatu) {
+    /* 动画部分 */
+    // 第1步：创建动画实例 
+    var animation = wx.createAnimation({
+      duration: 200, //动画时长
+      timingFunction: "linear", //线性
+      delay: 0 //0则不延迟
+    });
+
+    // 第2步：这个动画实例赋给当前的动画实例
+    this.animation = animation;
+
+    // 第3步：执行第一组动画：Y轴偏移240px后(盒子高度是240px)，停
+    animation.translateY(240).step();
+
+    // 第4步：导出动画对象赋给数据对象储存
+    this.setData({
+      animationData: animation.export()
+    })
+
+    // 第5步：设置定时器到指定时候后，执行第二组动画
+    setTimeout(function () {
+      // 执行第二组动画：Y轴不偏移，停
+      animation.translateY(0).step()
+      // 给数据对象储存的第一组动画，更替为执行完第二组动画的动画对象
+      this.setData({
+        animationData: animation
+      })
+
+      //关闭抽屉
+      if (currentStatu == "close") {
+        this.setData({
+          showModalStatus1: false
+        });
+      }
+    }.bind(this), 200)
+
+    // 显示抽屉
+    if (currentStatu == "open") {
+      this.setData({
+        showModalStatus1: true
+      });
+    }
+  },
+  powerDrawer1: function (e) {
+    var currentStatu = e.currentTarget.dataset.statu;
+    this.util1(currentStatu)
+  },
+  util1: function (currentStatu) {
+    /* 动画部分 */
+    // 第1步：创建动画实例 
+    var animation = wx.createAnimation({
+      duration: 200, //动画时长
+      timingFunction: "linear", //线性
+      delay: 0 //0则不延迟
+    });
+
+    // 第2步：这个动画实例赋给当前的动画实例
+    this.animation = animation;
+
+    // 第3步：执行第一组动画：Y轴偏移240px后(盒子高度是240px)，停
+    animation.translateY(240).step();
+
+    // 第4步：导出动画对象赋给数据对象储存
+    this.setData({
+      animationData1: animation.export()
+    })
+
+    // 第5步：设置定时器到指定时候后，执行第二组动画
+    setTimeout(function () {
+      // 执行第二组动画：Y轴不偏移，停
+      animation.translateY(0).step()
+      // 给数据对象储存的第一组动画，更替为执行完第二组动画的动画对象
+      this.setData({
+        animationData1: animation
+      })
+
+      //关闭抽屉
+      if (currentStatu == "close") {
+        this.setData({
+          showCoupon: false
+        });
+      }
+    }.bind(this), 200)
+
+    // 显示抽屉
+    if (currentStatu == "open") {
+      this.setData({
+        showCoupon: true
+      });
+    }
+  },
 
   /**
    * 生命周期函数--监听页面加载
@@ -100,7 +199,7 @@ Page({
       // console.log(res);
       this.setData({
 
-        coupon: res.data.data
+        coupon: res.data
       })
     })
 
@@ -123,6 +222,80 @@ Page({
         like: res.data
       })
     })
+  },
+  buy() {
+    let cart = []
+    let temp = {
+        goodsId: this.GoodsInfo.goodsId,
+        goodsName: this.GoodsInfo.goodsName,
+        goodsNormsValue: this.list[this.i].normsValue,
+        goodsAmount: parseInt(this.num),
+        goodsOldPrice: this.GoodsInfo.goodsOldPrice,
+        goodsNewPrice: this.GoodsInfo.goodsNewPrice,
+        imgPath: this.GoodsInfo.mainImage,
+        checked: true,
+        cartId:0
+    }
+    cart.push(temp)
+    wx.setStorageSync("cart", cart);
+     wx.navigateTo({
+       url: '/pages/pay/index'
+     })
+  },
+  getCoupon(e){
+     if (!wx.getStorageSync("token")) {
+       wx.showModal({
+         title: '提示',
+         content: '请先登录',
+         success(res) {
+           if (res.confirm) {
+             wx.navigateTo({
+               url: '/pages/login/index'
+             })
+           } else if (res.cancel) {
+
+           }
+         }
+       })
+     } else {
+    request({
+      url: "/api/v2/app/token/receiveCoupon",
+      method: 'POST',
+      data: {
+        couponId: e.currentTarget.dataset.id
+      }
+    }).then(res => {
+      if(res.code==200) {
+        wx.showToast({
+          title: '领取成功',
+          icon: 'success',
+          // 防止用户手抖 疯狂点击按钮
+          mask: true,
+          success: (result) => {
+            this.setData({
+              isReceive: false,
+              showCoupon: false
+            })
+          },
+          fail: () => {},
+          complete: () => {}
+        });
+      } else {
+        wx.showToast({
+          title: '不能重复领取',
+          icon: 'error',
+          // 防止用户手抖 疯狂点击按钮
+          mask: true,
+          success: (result) => {
+
+          },
+          fail: () => {},
+          complete: () => {}
+        });
+      }
+    })
+    
+    }
   },
   addCart() {
     if (!wx.getStorageSync("token")) {
@@ -251,37 +424,6 @@ Page({
 
   },
 
-  handleCartAdd() {
-    // 获取缓存中的购物车 数组
-    let cart = wx.getStorageSync("cart") || [];
-    // 判断商品对象是否存在购物车数组中
-    let index = cart.findIndex(v => v.goods_id === this.GoodsInfo.goods_id);
-    if (index === -1) {
-      // 不存在 第一次添加
-      this.GoodsInfo.num = 1;
-      this.GoodsInfo.checked = true;
-      cart.push(this.GoodsInfo)
-    } else {
-      // 存在 num++
-      cart[index].num++;
-      // console.log(cart[index].num);
-    }
-    // 把购物车加回到缓存中
-    wx.setStorageSync("cart", cart);
-    //弹窗提示
-    wx.showToast({
-      title: '加入成功',
-      icon: 'success',
-      // 防止用户手抖 疯狂点击按钮
-      mask: true,
-      success: (result) => {
-
-      },
-      fail: () => {},
-      complete: () => {}
-    });
-
-  },
   // 点击商品收藏
   handleCollect() {
     let isCollect = false;

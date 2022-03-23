@@ -16,21 +16,41 @@ Page({
       },
       {
         id: 1,
-        value: "待付款",
+        value: "已下单",
         isActive: false
       },
       {
         id: 2,
-        value: "待发货",
+        value: "已发货",
         isActive: false
       },
       {
         id: 3,
-        value: "退款/退货",
+        value: "已收货",
+        isActive: false
+      },
+      {
+        id: 4,
+        value: "未评价",
+        isActive: false
+      },
+      {
+        id: 5,
+        value: "已评价",
+        isActive: false
+      },
+      {
+        id: 6,
+        value: "退款中",
+        isActive: false
+      },
+      {
+        id: 7,
+        value: "已退款",
         isActive: false
       },
     ],
-    orders:[]
+    orders: []
   },
 
   /**
@@ -40,7 +60,7 @@ Page({
 
   },
   // 根据标题索引来激活选中 标题数组
-  changeTitleByIndex(index){
+  changeTitleByIndex(index) {
     let {
       tabs
     } = this.data;
@@ -59,18 +79,66 @@ Page({
     //修改原数组
     this.changeTitleByIndex(index);
     // 重新发送请求
-    this.getOrders(index+1);
+    this.getOrders(index);
   },
   // 获取订单列表
-  async getOrders(type){
-    const res = await request({
-      url: "/api/v1/order/searchUserOrder"
-    })
-    this.setData({
-      orders: res.data.map(v => ({
-        ...v,
-        create_time_cn: new Date(v.create_time * 1000).toLocaleString()
-      }))
+  async getOrders(index) {
+    if (index == 0) {
+      const res = await request({
+        url: "/api/v1/order/searchUserOrder",
+        method: 'POST',
+        data: {}
+      })
+      this.setData({
+        orders: res.data.map(v => ({
+          ...v,
+          createTime: new Date(v.createTime).toLocaleString()
+        }))
+      })
+    } else {
+
+      const res = await request({
+        url: "/api/v1/order/searchUserOrder",
+        method: 'POST',
+        data: {
+          status: index
+        }
+      })
+      this.setData({
+        orders: res.data.map(v => ({
+          ...v,
+          createTime: new Date(v.createTime).toLocaleString()
+        }))
+      })
+    }
+  },
+
+  refund(e) {
+    wx.showModal({
+      title: '提示',
+      content: '是否退款',
+      success(res) {
+        if (res.confirm) {
+          request({
+            url: "/api/v1/order/backUp?OrderId=" + e.currentTarget.dataset.id,
+            method: "POST"
+          }).then(res => {
+            wx.showToast({
+              title: '已提交申请',
+              icon: 'success',
+              // 防止用户手抖 疯狂点击按钮
+              mask: true,
+              success: (result) => {},
+              fail: () => {},
+              complete: () => {}
+            });
+          })
+
+
+        } else if (res.cancel) {
+
+        }
+      }
     })
   },
   /**
@@ -79,13 +147,42 @@ Page({
   onReady: function () {
 
   },
+  confrim(e) {
+    request({
+      url: '/api/v1/order/update?orderId=' + e.currentTarget.dataset.id+'&status=4',
+      method:'POST'
+    }).then(res=> {
+      this.getOrders(0);
+      wx.showToast({
+        title: '已确认收货',
+        icon: 'success',
+        // 防止用户手抖 疯狂点击按钮
+        mask: true,
+        success: (result) => {
 
+        },
+        fail: () => {},
+        complete: () => {}
+      });
+    })
+  },
+  gostar(e){
+    wx.navigateTo({
+      url: '/pages/feedback/index?uid=' + e.currentTarget.dataset.uid + '&type=3&id=' + e.currentTarget.dataset.id,
+      success: (result) => {
+        
+      },
+      fail: () => {},
+      complete: () => {}
+    });
+      
+  },
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function (options) {
     const token = wx.getStorageSync("token");
-    if(!token){
+    if (!token) {
       wx.showModal({
         title: '提示',
         content: '请先登录',
@@ -102,14 +199,14 @@ Page({
     }
     // 获取当前的小程序的页面栈-数组 长度最大是10个页面
     // 数组中索引最大 的就是当前页面
-    let pages =  getCurrentPages();
-    let currentPage = pages[pages.length-1];
+    let pages = getCurrentPages();
+    let currentPage = pages[pages.length - 1];
     const {
       type
     } = currentPage.options;
     // 激活选中页面标题
     this.changeTitleByIndex(type-1);
-    this.getOrders(type);
+    this.getOrders(type-1);
   },
 
   /**

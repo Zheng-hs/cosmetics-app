@@ -1,3 +1,8 @@
+import {
+  request
+}
+from '../../request/index'
+
 // pages/feedback/index.js
 Page({
 
@@ -5,78 +10,106 @@ Page({
    * 页面的初始数据
    */
   data: {
-    tabs: [{
-        id: 0,
-        value: "体验问题",
-        isActive: true
+    chooseImgs: [],
+    textVal: '',
+    stars: [{
+        flag: 1,
+        bgImg: "icon-star-full",
+        bgfImg: "icon-star"
       },
       {
-        id: 1,
-        value: "商品、商家投诉",
-        isActive: false
+        flag: 1,
+        bgImg: "icon-star-full",
+        bgfImg: "icon-star"
+      },
+      {
+        flag: 1,
+        bgImg: "icon-star-full",
+        bgfImg: "icon-star"
+      },
+      {
+        flag: 1,
+        bgImg: "icon-star-full",
+        bgfImg: "icon-star"
+      },
+      {
+        flag: 1,
+        bgImg: "icon-star-full",
+        bgfImg: "icon-star"
       }
-    ],
-    chooseImgs:[],
-    textVal:''
+    ]
   },
-  UpLoad:[],
-   //标题点击事件 从子组件传递过来
-   handleTabsItemChange(e) {
-     //获取被点击的标题索引
-     const {
-       index
-     } = e.detail;
-     //修改原数组
-     let {
-       tabs
-     } = this.data;
-     tabs.forEach((v, i) => i === index ? v.isActive = true : v.isActive = false);
-     //赋值到data中
-     this.setData({
-       tabs
-     })
-   },
-   handleChooseImg(){
-     wx.chooseImage({
+  UpLoad: [],
+  level: 0,
+  type: '',
+  uid:'',
+  orderId:'',
+  score: function (e) {
+    var that = this;
+    for (var i = 0; i < that.data.stars.length; i++) {
+      var allItem = 'stars[' + i + '].flag';
+      that.setData({
+        [allItem]: 1
+      })
+    }
+    var index = e.currentTarget.dataset.index;
+    for (var i = 0; i <= index; i++) {
+      var item = 'stars[' + i + '].flag';
+      that.setData({
+        [item]: 2
+      })
+    }
+    const a = that.data.stars.filter(v => v.flag == 2);
+    this.level = a.length
+  },
+  handleChooseImg() {
+    wx.chooseImage({
       //  同时选中图片数量
-       count: 9,
+      count: 9,
       //  图片格式 原图 压缩
-       sizeType: ['original', 'compressed'],
+      sizeType: ['original', 'compressed'],
       //  图片来源 相册 照相机
-       sourceType: ['album', 'camera'],
-       success: (result) => {
-         this.setData({
-           chooseImgs: [...this.data.chooseImgs,...result.tempFilePaths]
-         })
-       },
-       fail: () => {},
-       complete: () => {}
-     });
-       
-   },
-   handleRemoveImg(e){
-    const {index} = e.currentTarget.dataset;
-    let {chooseImgs}=  this.data;
-    chooseImgs.splice(index,1);
+      sourceType: ['album', 'camera'],
+      success: (result) => {
+        this.setData({
+          chooseImgs: [...this.data.chooseImgs, ...result.tempFilePaths]
+        })
+      },
+      fail: () => {},
+      complete: () => {}
+    });
+
+  },
+  handleRemoveImg(e) {
+    const {
+      index
+    } = e.currentTarget.dataset;
+    let {
+      chooseImgs
+    } = this.data;
+    chooseImgs.splice(index, 1);
     this.setData({
       chooseImgs
     })
-   },
-   handleTextInput(e){
-     this.setData({
-       textVal:e.detail.value
-     })
-   },
-   handleFormSubmit(){
-     const {textVal,chooseImgs} = this.data;
+  },
+  handleTextInput(e) {
+    this.setData({
+      textVal: e.detail.value
+    })
+  },
+  handleFormSubmit() {
+    const {
+      textVal,
+      chooseImgs
+    } = this.data;
     //  合法验证
-    if(!textVal.trim()) {
+    if (!textVal.trim()) {
       wx.showToast({
-        title: '输入不合法',
+        title: '请输入评价内容',
         icon: 'none',
         mask: true
       });
-        
+
       return;
     }
     wx.showLoading({
@@ -84,15 +117,15 @@ Page({
       mask: true
     });
 
-    if(chooseImgs.length!=0) {
+    if (chooseImgs.length != 0) {
 
       // 准备上传图片到专门的服务器
       // 不支持多个文件
-      chooseImgs.forEach((v,i)=>{
-  
+      chooseImgs.forEach((v, i) => {
+
         wx.uploadFile({
           // 上传到哪里
-          url: 'https://images.ac.cn/Home/Index/UploadAction/',
+          url: 'http://1.15.186.9:8006/api/v1/upload',
           // 被上传的图片路径
           filePath: v,
           // 上传的图片名称 后台来获取文件 file
@@ -100,40 +133,65 @@ Page({
           // 顺带的文本信息
           formData: {},
           success: (result) => {
-            let url = JSON.parse(result.data.url);
+            console.log(result);
+            let url = JSON.parse(result.data).path;
             this.UpLoad.push(url);
-  
-            if(i===chooseImgs.length-1){
+            console.log(this.UpLoad);
+            if (i === chooseImgs.length - 1) {
               wx.hideLoading();
-              console.log(111);
             }
             this.setData({
-              textVal:'',
+              textVal: '',
               chooseImgs: []
             })
-            wx.navigateBack({
-              delta: 1
-            });
-              
           }
         });
       })
     } else {
+      request({
+        url: '/api/v1/comment/add',
+        method: 'POST',
+        data: {
+          commentContent: textVal,
+          commentType: this.type,
+          goodsLevel: this.level,
+          uid: this.uid,
+          imgPath: wx.getStorageSync("userinfo").avatarUrl,
+          commentUser: wx.getStorageSync("userinfo").nickName,
+          orderId: this.orderId
+        }
+      }).then(res=> {
+        wx.showToast({
+          title: '评论成功',
+          icon: 'success',
+          // 防止用户手抖 疯狂点击按钮
+          mask: true,
+          success: (result) => {},
+          fail: () => {},
+          complete: () => {
+
+          }
+        });
+      })
       wx.hideLoading();
       wx.navigateBack({
         delta: 1
       });
-        
-      console.log('只是提交了文本');
     }
-      
-      
-   },
+    wx.navigateBack({
+      delta: 1
+    });
+
+
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    // console.log(options);
+    this.type = options.type
+    this.uid = options.uid
+    this.orderId = options.id
   },
 
   /**

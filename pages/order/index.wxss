@@ -1,24 +1,75 @@
-.order_main .order_item {
+page {
+  background-color: #f0f0f0;
+}
+.order_item {
+  background-color: #fff;
+  border-radius: 10rpx;
+  margin: 20rpx;
   padding: 20rpx;
-  border-bottom: 1rpx solid #5a4747;
-  color: #666;
 }
-.order_main .order_item .order_no_row {
+.order_item .order_no_row {
   display: flex;
   justify-content: space-between;
-  padding: 10rpx 0;
+  align-items: center;
+  margin: 10rpx;
 }
-.order_main .order_item .order_price_row {
-  display: flex;
-  justify-content: space-between;
-  padding: 10rpx 0;
+.order_item .order_no_row .order_no_value {
+  color: #ccc;
 }
-.order_main .order_item .order_price_row .order_price_value {
+.order_item .order_no_row .order_status {
   color: var(--themeColor);
-  font-size: 32rpx;
+  font-size: 24rpx;
 }
-.order_main .order_item .order_time_row {
+.order_item .order_price_row {
+  display: flex;
+}
+.order_item .order_price_row image {
+  width: 50rpx;
+  flex: 2;
+  height: 100rpx;
+}
+.order_item .order_price_row .order_price_text {
+  flex: 4;
+}
+.order_item .order_price_row .order_price_text .goods_name {
+  font-size: 28rpx;
+  margin: 10rpx;
+}
+.order_item .order_price_row .order_price_value {
+  color: var(--themeColor);
+  margin: 10rpx;
+  font-size: 28rpx;
+  font-weight: 400;
+  text-align: right;
+}
+.order_item .order_price_row .good {
   display: flex;
   justify-content: space-between;
-  padding: 10rpx 0;
+}
+.order_item .order_price_row .goods_price {
+  display: flex;
+}
+.order_item .order_price_row .goods_price .goods_num {
+  color: #ccc;
+  font-size: 24rpx;
+  margin: 10rpx;
+}
+.order_item .order_price_row .goods_price .goods_value {
+  color: #ccc;
+  font-size: 24rpx;
+  margin: 10rpx;
+}
+.order_item .order_time_row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.order_item .order_time_row .order_time_value {
+  margin-top: 10rpx;
+}
+.order_item .order_time_row .btn {
+  background-color: var(--themeColor);
+  color: #fff;
+  border-radius: 30rpx;
+  padding: 10rpx 30rpx;
 }

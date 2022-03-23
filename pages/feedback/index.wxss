@@ -59,3 +59,24 @@ page {
   align-items: center;
   justify-content: space-around;
 }
+.content {
+  display: flex;
+}
+.content .pingfen {
+  font-size: 30rpx;
+  margin: 20rpx;
+}
+.content .star {
+  margin: 10rpx;
+  display: flex;
+  align-items: center;
+}
+.content .star .icon-star-full {
+  color: orangered;
+  font-size: 40rpx;
+  margin: 5rpx;
+}
+.content .star .icon-star {
+  font-size: 40rpx;
+  margin: 5rpx;
+}
