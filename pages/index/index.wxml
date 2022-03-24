@@ -18,7 +18,7 @@
 
   <!-- 导航 -->
   <view class="index_cate">
-    <navigator url="/pages/goods_list/index">
+    <navigator url="" bindtap="goSeckill">
       <image class="" src="../../icons/1.png" mode="widthFix" lazy-load="false" binderror="" bindload="" />
       <view >商品秒杀</view>
     </navigator>

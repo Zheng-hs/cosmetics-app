@@ -1,6 +1,6 @@
 
         <view class="first_tab">
-            <navigator wx:for="{{goodsList}}" wx:key="goodsId" class="goods_item" url="/pages/goods_detail/index?goods_id={{item.goodsId}}" hover-class="navigator-hover" open-type="navigate">
+            <navigator wx:for="{{goodsList}}" wx:key="goodsId" class="goods_item" hover-class="navigator-hover" open-type="navigate">
                 <view class="goods_img_warp">
                     <image src="{{item.goodsImage?item.goodsImage:'https://ww1.sinaimg.cn/large/007rAy9hgy1g24by9t530j30i20i2glm.jpg'}}" mode="widthFix"/>
                 </view>
