@@ -3,7 +3,7 @@
         <view class="order_item" wx:for="{{orders}}" wx:key="orderId">
             <view class="order_no_row">
                 <view class="order_no_value">{{item.orderId}}</view>
-                <view class="order_status" wx:if="{{item.status==1}}">已下单</view>
+                <view class="order_status" wx:if="{{item.status==1||item.status==0}}">已下单</view>
                 <view class="order_status" wx:elif="{{item.status==2}}">已发货</view>
                 <view class="order_status" wx:elif="{{item.status==3}}">已到货</view>
                 <view class="order_status" wx:elif="{{item.status==4}}">已收货未评价</view>

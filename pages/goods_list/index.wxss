@@ -1,6 +1,14 @@
+page {
+  background-color: #f0f0f0;
+}
 .first_tab .goods_item {
   display: flex;
-  border-bottom: 1px solid #ccc;
+  border-radius: 20rpx;
+  padding: 20rpx;
+  margin: 20rpx;
+  background-color: #fff;
+  position: relative;
+  padding-bottom: 70rpx;
 }
 .first_tab .goods_item .goods_img_warp {
   flex: 2;
@@ -12,17 +20,49 @@
 }
 .first_tab .goods_item .goods_info_warp {
   flex: 3;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
+  margin-left: 20rpx;
 }
 .first_tab .goods_item .goods_info_warp .goods_name {
   display: -webkit-box;
   overflow: hidden;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
+  margin: 20rpx;
+  font-size: 32rpx;
 }
 .first_tab .goods_item .goods_info_warp .goods_price {
   color: var(--themeColor);
   font-size: 32rpx;
+  margin: 20rpx;
+}
+.first_tab .goods_item .goods_info_warp .goods_num {
+  margin: 20rpx;
+  color: var(--themeColor);
+}
+.first_tab .goods_item .goods_info_warp .buy_num {
+  margin-left: 20rpx;
+  color: #aaa;
+}
+.first_tab .goods_item .time {
+  position: absolute;
+  bottom: 10rpx;
+  color: #aaa;
+}
+.first_tab .goods_item .buy_btn {
+  position: absolute;
+  bottom: 10rpx;
+  right: 20rpx;
+  padding: 10rpx;
+  color: #fff;
+  background-color: var(--themeColor);
+  border-radius: 10rpx;
+}
+.first_tab .goods_item .btn {
+  position: absolute;
+  bottom: 10rpx;
+  right: 20rpx;
+  padding: 10rpx;
+  color: #fff;
+  background-color: #eb444fa9;
+  border-radius: 10rpx;
 }

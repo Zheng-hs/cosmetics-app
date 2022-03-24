@@ -1,23 +1,20 @@
-<SearchInput></SearchInput>
-<Tabs tabs="{{tabs}}" bindtabsItemChange="handleTabsItemChange">
-    <block wx:if="{{tabs[0].isActive}}">
+
         <view class="first_tab">
-            <navigator wx:for="{{goodsList}}" wx:key="goods_id" class="goods_item" url="/pages/goods_detail/index?goods_id={{item.goods_id}}" hover-class="navigator-hover" open-type="navigate">
+            <navigator wx:for="{{goodsList}}" wx:key="goodsId" class="goods_item" url="/pages/goods_detail/index?goods_id={{item.goodsId}}" hover-class="navigator-hover" open-type="navigate">
                 <view class="goods_img_warp">
-                    <image src="{{item.goods_small_logo?item.goods_small_logo:'https://ww1.sinaimg.cn/large/007rAy9hgy1g24by9t530j30i20i2glm.jpg'}}" mode="widthFix"/>
+                    <image src="{{item.goodsImage?item.goodsImage:'https://ww1.sinaimg.cn/large/007rAy9hgy1g24by9t530j30i20i2glm.jpg'}}" mode="widthFix"/>
                 </view>
                 <view class="goods_info_warp">
-                    <view class="goods_name">{{item.goods_name}}</view>
-                    <view class="goods_price">¥{{item.goods_price}}</view>
+                    <view class="goods_name">{{item.goodsName}}</view>
+                    <view class="goods_price">¥{{item.goodsPrice}}</view>
+                    <view class="goods_num">限量{{item.goodsQuantity}}份</view>
+                    <view class="buy_num">每人限购{{item.limitQuantity}}份</view>
                 </view>
+                <view class="time">活动时间至{{item.endTime}}</view>
+                <view class="buy_btn" bindtap="buy" data-index="{{index}}" wx:if="{{item.status==1}}">立即秒杀</view>
+                <view class="btn" wx:elif="{{item.status==0}}">活动未开始</view>
+                <view class="btn" wx:elif="{{item.status==2}}">活动已结束</view>
+                <view class="btn" wx:else>已抢购</view>
             </navigator>
               
         </view>
-    </block>
-    <block wx:elif="{{tabs[1].isActive}}">
-        1
-    </block>
-    <block wx:elif="{{tabs[2].isActive}}">
-        2
-    </block>
-</Tabs>

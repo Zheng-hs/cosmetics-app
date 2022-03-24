@@ -120,8 +120,10 @@ Page({
         method: 'POST',
         data:  list
       }).then(res => {
+        const coupon = res.data.filter(v => v.useLimitValue < totalPrice)
+        // console.log(coupon);
         this.setData({
-          coupon: res.data
+          coupon: coupon
         })
       })
     } else {
@@ -133,8 +135,9 @@ Page({
           goodsId: list[0]
         }
       }).then(res => {
+        const coupon = res.data.data.filter(v => v.useLimitValue < totalPrice)
         this.setData({
-          coupon: res.data.data
+          coupon: coupon
         })
       })
     }

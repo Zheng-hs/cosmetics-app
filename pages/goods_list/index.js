@@ -40,21 +40,23 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.QueryParams.cid = options.cid||'';
-    this.QueryParams.query = options.query || '';
     this.getGoodsList();
   },
   //获取商品列表数据
   async getGoodsList() {
     const res = await request({
-      url: "/goods/search",
-      data: this.QueryParams
+      url: "/api/v2/app/notToken/searchAllActivity",
+      method: 'POST',
+      data: {
+        activityType: 0
+      }
     });
-    const total = res.total;
+    const total = res.data.total;
     this.totalPage = Math.ceil(total / this.QueryParams.pagesize);
+    wx.setStorageSync("seckill",res.data.data);
     this.setData({
       //拼接了数组
-      goodsList: [...this.data.goodsList, ...res.goods]
+      goodsList: [...this.data.goodsList, ...res.data.data]
     })
     // 关闭下拉刷新窗口
     wx.stopPullDownRefresh();
@@ -74,6 +76,18 @@ Page({
     this.setData({
       tabs
     })
+  },
+
+  buy(e){
+    wx.navigateTo({
+      url: '/pages/seckill/index?index=' + e.currentTarget.dataset.index,
+      success: (result) => {
+        
+      },
+      fail: () => {},
+      complete: () => {}
+    });
+      
   },
   /**
    * 生命周期函数--监听页面初次渲染完成

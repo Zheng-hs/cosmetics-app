@@ -18,19 +18,19 @@
 
   <!-- 导航 -->
   <view class="index_cate">
-    <navigator url="/pages/category/index" hover-class="navigator-hover" open-type="switchTab">
+    <navigator url="/pages/goods_list/index">
       <image class="" src="../../icons/1.png" mode="widthFix" lazy-load="false" binderror="" bindload="" />
       <view >商品秒杀</view>
     </navigator>
-    <navigator url="/pages/category/index" hover-class="navigator-hover" open-type="switchTab">
+    <navigator url="/pages/category/index">
       <image class="" src="../../icons/2.png" mode="widthFix" lazy-load="false" binderror="" bindload="" />
       <view >新品试用</view>
     </navigator>
-    <navigator url="/pages/category/index" hover-class="navigator-hover" open-type="switchTab">
+    <navigator url="/pages/category/index">
       <image class="" src="../../icons/3.png" mode="widthFix" lazy-load="false" binderror="" bindload="" />
       <view >领券中心</view>
     </navigator>
-    <navigator url="/pages/category/index" hover-class="navigator-hover" open-type="switchTab">
+    <navigator url="/pages/category/index">
       <image class="" src="../../icons/4.png" mode="widthFix" lazy-load="false" binderror="" bindload="" />
       <view >本周新品</view>
     </navigator>
@@ -48,7 +48,7 @@
   <!-- 楼层 -->
   <view class="hot_title">热门文章</view>
   <view class="hot_articles">
-    <navigator url="{{}}" hover-class="navigator-hover" open-type="switchTab" wx:for="{{floorList}}" wx:for-item="item" wx:for-index="index" wx:key="goodsId">
+    <navigator url="{{}}" wx:for="{{floorList}}" wx:for-item="item" wx:for-index="index" wx:key="goodsId">
       <!-- <rich-text nodes="{{item.articlesContent}}"></rich-text> -->
         <view class="left">
           <view class="articles_title">{{item.articlesTitle}}</view>
