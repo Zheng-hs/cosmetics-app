@@ -180,7 +180,7 @@ Page({
       url: "/api/v2/app/notToken/getComment",
       method: 'POST',
       data: {
-        goodsId: options.goodsId
+        uid: options.goodsId
       }
     }).then(res => {
       console.log(res);

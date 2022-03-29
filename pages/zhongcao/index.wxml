@@ -1,0 +1,18 @@
+<Tabs tabs="{{tabs}}" bindtabsItemChange="handleTabsItemChange">
+    <block wx:for="{{tabs}}" wx:for-index="index" wx:key="id" wx:if="{{tabs[index].isActive}}">
+        <view class="container">
+            <navigator class="first_tab" wx:for="{{content}}" wx:for-index="index" wx:key="articlesId" url="/pages/text_detail/index?i={{index}}">
+                <image class="" src="{{item.articlesImg}}" />
+                <view class="title">{{item.articlesTitle}}</view>
+                <view class="info">
+                    <view class="author">{{item.articlesAuthor}}</view>
+                    <view class="view_num">
+                        <text class="iconfont  icon-dianzan1"></text>
+                        {{item.articlesLike}}
+                    </view>
+                </view>
+            </navigator>
+        </view>
+        <navigator class="biji" url="/pages/add_text/index">发布笔记</navigator>
+    </block>
+</Tabs>

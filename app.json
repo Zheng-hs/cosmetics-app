@@ -3,9 +3,12 @@
     "pages/index/index",
     "pages/category/index",
     "pages/goods_list/index",
+    "pages/try_goods/index",
+    "pages/active/index",
     "pages/goods_detail/index",
     "pages/cart/index",
     "pages/collect/index",
+    "pages/collects/index",
     "pages/order/index",
     "pages/search/index",
     "pages/user/index",
@@ -15,6 +18,9 @@
     "pages/pay/index",
     "pages/seckill/index",
     "pages/address/index",
+    "pages/zhongcao/index",
+    "pages/text_detail/index",
+    "pages/add_text/index",
     "pages/add/index"
   ],
   "window": {

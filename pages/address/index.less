@@ -1,0 +1,64 @@
+/* pages/address/index.wxss */
+page {
+  padding-bottom: 90rpx;
+  background-color: rgb(240, 240, 240);
+}
+.add_btn {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: var(--themeColor);
+    color: #fff;
+    text-align: center;
+    padding: 30rpx;
+}
+.all_address {      
+        position: relative;
+        padding: 20rpx;
+        background-color: #fff;
+        margin: 20rpx;
+        border-radius: 10rpx;
+        display: flex;
+        align-items: center;
+        .addresstext {
+          flex: 9;
+          margin-left: 20rpx;
+        }
+        .exit {
+          flex: 1;
+          z-index: 100;
+          text {
+            color: #bbb;
+            font-weight: 400;
+          }
+        }
+        .user_info{
+            display: flex;
+            
+            .user_name {
+              margin: 10rpx;
+            }
+            .phone {
+              margin: 10rpx;
+            }
+        }
+        .user_address {
+            text-align: left;
+            font-weight: bold;
+            font-size: 30rpx;
+            margin: 10rpx;
+        }
+    }
+    .active {
+      border: 1rpx solid var(--themeColor);
+    }
+    .moren {
+      background-color: var(--themeColor);
+      color: #fff;
+      position: absolute;
+      top:0;
+      left: 0;
+      border-radius: 10rpx;
+      padding: 10rpx;
+      font-size: 16rpx;
+    }

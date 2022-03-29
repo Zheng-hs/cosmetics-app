@@ -1,0 +1,96 @@
+<!-- pages/text_detail/index.wxml -->
+<view class="title">{{content.articlesTitle}}</view>
+<view class="first">
+    <view class="viewnum">浏览{{content.articlesPageView}}</view>
+    <view class="time">{{content.createTime}}</view>
+</view>
+<view class="content">
+    <rich-text nodes="{{content.articlesContent}}"></rich-text>
+</view>
+<view class="goods_evaluation">
+    <view class="common_title">
+        <view class="common_text">精选评论({{evaluationList.length}})</view>
+        <view class="look_all">查看全部></view>
+    </view>
+    <view class="common_body" wx:for="{{evaluationList}}" wx:key="commentId">
+        <view class="common_top">
+            <image src="{{item.imgPath}}" mode="widthFix" />
+            <view class="user">
+                <view class="user_name">{{item.commentUser}}</view>
+                <view class="common_time">{{item.createTime}}</view>
+            </view>
+        </view>
+        <view class="common"   data-id="{{item.commentId}}" bindtap="powerDrawer1" data-statu="open">{{item.commentContent}}</view>
+        <view class="reply" wx:for="{{item.replyEntityList}}" wx:for-item="item1" wx:key="replyId"  data-id="{{item1.replyId}}" bindtap="powerDrawer2" data-statu="open">
+            <view class="recommon_top">
+            <image src="{{item1.imgPath}}" mode="widthFix" />
+            <view class="reuser">
+                <view class="user_rename">{{item1.commentUser}}回复{{item1.replyUser}}: {{item1.replyContent}}</view>
+            </view>
+            </view>
+        </view>
+    </view>
+</view>
+<view class="bottom">
+    <view class="input_btn" bindtap="powerDrawer" data-statu="open">
+        <text class="iconfont icon-bianjishuru-xianxing"></text>
+        <view>说点什么...</view>
+    </view>
+    <view class="good">
+        <text class="iconfont  icon-dianzan1"></text>
+        {{content.articlesLike}}
+    </view>
+    <view class="collect" bindtap="handleCollect">
+        <text class="iconfont   {{isCollect?'icon-star-full':'icon-star'}} "></text>
+    </view>
+    <view class="tool_item">
+        <view class="iconfont icon-yixianshi-"></view>
+        <button open-type="share"></button>
+    </view>
+</view>
+<!-- 规格弹窗 -->
+<!-- mask -->
+<view class="drawer_screen" bindtap="powerDrawer" data-statu="close" wx:if="{{showModalStatus}}"></view>
+<!-- content -->
+<!-- 使用animation属性指定需要执行的动画 -->
+<view animation="{{animationData}}" class="drawer_attr_box" wx:if="{{showModalStatus}}">
+    <!-- drawer content -->
+    <view class="drawer_content">
+        <text class="norm_title">评论:
+            {{content.articlesTitle}}</text>
+        <view class="good_num">
+            <textarea value="{{textVal}}" auto-focus bindinput="handleTextInput" placeholder="想说些什么呢~(评论将在审核后显示)"></textarea>
+        </view>
+        <view class="sumbit" bindtap="addCart">评论</view>
+    </view>
+</view>
+<!-- 规格弹窗 -->
+<!-- mask -->
+<view class="drawer_screen" bindtap="powerDrawer1" data-statu="close" wx:if="{{showModalStatus1}}"></view>
+<!-- content -->
+<!-- 使用animation属性指定需要执行的动画 -->
+<view animation="{{animationData}}" class="drawer_attr_box" wx:if="{{showModalStatus1}}">
+    <!-- drawer content -->
+    <view class="drawer_content">
+        <text class="norm_title">评论:</text>
+        <view class="good_num">
+            <textarea value="{{textVal}}" auto-focus bindinput="handleTextInput" placeholder="想说些什么呢~(评论将在审核后显示)"></textarea>
+        </view>
+        <view class="sumbit" bindtap="replay">评论</view>
+    </view>
+</view>
+<!-- 规格弹窗 -->
+<!-- mask -->
+<view class="drawer_screen" bindtap="powerDrawer2" data-statu="close" wx:if="{{showModalStatus2}}"></view>
+<!-- content -->
+<!-- 使用animation属性指定需要执行的动画 -->
+<view animation="{{animationData}}" class="drawer_attr_box" wx:if="{{showModalStatus2}}">
+    <!-- drawer content -->
+    <view class="drawer_content">
+        <text class="norm_title">评论:</text>
+        <view class="good_num">
+            <textarea value="{{textVal}}" auto-focus bindinput="handleTextInput" placeholder="想说些什么呢~(评论将在审核后显示)"></textarea>
+        </view>
+        <view class="sumbit" bindtap="replay1">评论</view>
+    </view>
+</view>

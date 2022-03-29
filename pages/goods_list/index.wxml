@@ -1,6 +1,6 @@
 
         <view class="first_tab">
-            <navigator wx:for="{{goodsList}}" wx:key="goodsId" class="goods_item" hover-class="navigator-hover" open-type="navigate">
+            <view wx:for="{{goodsList}}" wx:key="goodsId" class="goods_item">
                 <view class="goods_img_warp">
                     <image src="{{item.goodsImage?item.goodsImage:'https://ww1.sinaimg.cn/large/007rAy9hgy1g24by9t530j30i20i2glm.jpg'}}" mode="widthFix"/>
                 </view>
@@ -15,6 +15,6 @@
                 <view class="btn" wx:elif="{{item.status==0}}">活动未开始</view>
                 <view class="btn" wx:elif="{{item.status==2}}">活动已结束</view>
                 <view class="btn" wx:else>已抢购</view>
-            </navigator>
+            </view>
               
         </view>

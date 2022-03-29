@@ -1,0 +1,16 @@
+
+    <view class="collect_main">
+        <view class="collect_content">
+            <navigator class="first_tab" wx:for="{{collects}}" wx:for-index="index" wx:key="articlesId" url="/pages/text_detail/index?index={{index}}">
+                <image class="" src="{{item.articlesImg}}" />
+                <view class="title">{{item.articlesTitle}}</view>
+                <view class="info">
+                    <view class="author">{{item.articlesAuthor}}</view>
+                    <view class="view_num">
+                        <text class="iconfont  icon-dianzan1"></text>
+                        {{item.articlesLike}}
+                    </view>
+                </view>
+            </navigator>
+        </view>
+    </view>

@@ -1,0 +1,47 @@
+<view class="wx_address" bindtap="handleChooseAddress" wx:if="{{!add}}">
+    <image class="" src="/icons/1153be16a2d7b9d3b3419a3500a64dc1.jpeg" mode="widthFix" lazy-load="false" binderror="" bindload="" />
+    <view>获取微信收货地址</view>
+    <view class="right_btn">›</view>
+</view>
+<view class="input_group">
+    <view class="page_section">
+        <view class="weui-cells__title">姓名</view>
+        <view class="weui-cells_after-title">
+            <view class="weui-cell weui-cell_input">
+                <input class="weui-input" value="{{inputValue}}"  bindinput="bindKeyInput" auto-focus placeholder="请输入收货人姓名" />
+            </view>
+        </view>
+    </view>
+    <view class="page_section">
+        <view class="weui-cells__title">电话</view>
+        <view class="weui-cells_after-title">
+            <view class="weui-cell weui-cell_input">
+                <input class="weui-input" type="number"  value="{{inputValue1}}"  bindinput="bindKeyInput1" placeholder="请输入收货人手机号" />
+            </view>
+        </view>
+    </view>
+    <view class="page_section">
+        <view class="section__title">地区</view>
+        <view class="weui-cells_after-title">
+            <picker mode="region" bindchange="bindRegionChange" value="{{region}}">
+                <input class="weui-input" type="number" value="{{region[0]}}{{region[1]}}{{region[2]}}" placeholder="请输入收货人地区" />
+            </picker>
+        </view>
+    </view>
+    <view class="page_section">
+        <view class="weui-cells__title">详细地址</view>
+        <view class="weui-cells_after-title">
+            <view class="weui-cell weui-cell_input">
+                <input class="weui-input" auto-focus  value="{{inputValue}}"  value="{{inputValue2}}"  bindinput="bindKeyInput2" placeholder="请输入详情的街道门牌.楼层房间号等信息" />
+            </view>
+        </view>
+    </view>
+</view>
+<view class="delete" wx:if="{{add}}">
+    <view class="delete_add" bindtap="delete">
+        删除地址
+    </view>
+      
+</view>
+<view class="add_btn" bindtap="add"  wx:if="{{!add}}">保存并使用</view>
+<view class="add_btn" bindtap="exitadd" wx:else>保存并使用</view>

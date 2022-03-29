@@ -9,15 +9,15 @@
 .index_cate {
   display: flex;
 }
-.index_cate navigator {
+.index_cate .logo {
   flex: 1;
   padding: 20rpx;
   text-align: center;
 }
-.index_cate navigator image {
+.index_cate .logo image {
   width: 70%;
 }
-.index_cate navigator view {
+.index_cate .logo view {
   text-align: center;
 }
 .hot_title {

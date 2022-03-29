@@ -1,0 +1,70 @@
+/* pages/add/index.wxss */
+page {
+  padding-bottom: 90rpx;
+  background-color: #f0f0f0;
+  text-align: center;
+}
+.wx_address {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  font-size: 32rpx;
+  padding: 40rpx;
+  background-color: #fff;
+  border-radius: 20rpx;
+  margin: 20rpx;
+}
+.wx_address image {
+  width: 50rpx;
+  margin-right: 20rpx;
+}
+.wx_address .right_btn {
+  position: absolute;
+  right: 20rpx;
+  font-size: 40rpx;
+  color: #bbb;
+}
+.input_group {
+  background-color: #fff;
+  margin: 10rpx 0;
+}
+.page_section {
+  display: flex;
+  align-items: center;
+  padding: 20rpx;
+}
+.page_section .weui-cells__title {
+  padding: 20rpx;
+  flex: 1;
+}
+.page_section .section__title {
+  padding: 20rpx;
+  flex: 1;
+}
+.page_section .weui-cells_after-title {
+  border-bottom: 1rpx solid #eee;
+  padding: 20rpx;
+  flex: 9;
+}
+.delete {
+  display: flex;
+  justify-content: center;
+  margin: 60rpx;
+}
+.delete .delete_add {
+  background-color: var(--themeColor);
+  color: #fff;
+  padding: 20rpx;
+  width: 40%;
+  border-radius: 10rpx;
+}
+.add_btn {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: var(--themeColor);
+  color: #fff;
+  text-align: center;
+  padding: 30rpx;
+}

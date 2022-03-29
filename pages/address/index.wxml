@@ -1,0 +1,17 @@
+<view class="all_address  {{index===currentIndex?'active' : ''}}" wx:for="{{address}}" wx:key="addressId" >
+  <view class="moren" wx:if="{{index===currentIndex}}">默认</view>
+  <view class="addresstext"  bindtap="chooseAddress"  data-index="{{index}}">
+    <view class="user_address">{{item.province+item.city+item.area+item.address}}</view>
+    <view class="user_info">
+      <view class="user_name">{{item.userName}}</view>
+      <view class="phone">{{item.phone}}</view>
+    </view>
+  </view>
+  <view class="exit"  data-index="{{index}}" bindtap="getDetail">
+    <text class="iconfont icon-bianjishuru-xianxing"></text>
+  </view>
+    
+</view>
+<navigator url="/pages/add/index">
+  <view class="add_btn">新增地址</view>
+</navigator>

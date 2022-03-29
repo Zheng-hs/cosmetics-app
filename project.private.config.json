@@ -121,12 +121,26 @@
           "name": "编辑收货地址",
           "pathName": "pages/add/index",
           "query": "",
-          "scene": null,
-          "launchMode": "default"
+          "launchMode": "default",
+          "scene": null
         },
         {
           "name": "收货地址",
           "pathName": "pages/address/index",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "试用",
+          "pathName": "pages/try_goods/index",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "种草圈子",
+          "pathName": "pages/zhongcao/index",
           "query": "",
           "scene": null,
           "launchMode": "default"

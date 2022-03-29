@@ -75,6 +75,33 @@ Page({
         
     }
   },
+  gotry() {
+    if (!wx.getStorageSync("token")) {
+      wx.showModal({
+        title: '提示',
+        content: '请先登录',
+        success(res) {
+          if (res.confirm) {
+            wx.navigateTo({
+              url: '/pages/login/index'
+            })
+          } else if (res.cancel) {
+
+          }
+        }
+      })
+    } else {
+      wx.navigateTo({
+        url: '/pages/try_goods/index',
+        success: (result) => {
+          
+        },
+        fail: () => {},
+        complete: () => {}
+      });
+        
+    }
+  },
   getFloorList() {
      request({
        url: "/api/v2/app/notToken/getArticles",

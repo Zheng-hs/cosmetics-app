@@ -1,0 +1,64 @@
+<view class="revice_address_row" bindtap="goAddress">
+    <view class="showtext" wx:if="{{!address.userName}}">宝贝还没填收货地址哦~</view>
+    <view class="user_info_row" wx:else>
+        <view class="address">{{address.all}}</view>
+        <view class="user_info">
+            <view>{{address.userName}}</view>
+            <view class="user_phone">{{address.telNumber}}</view>
+        </view>
+    </view>
+    <view class="right">›</view>
+</view>
+<!-- 购物车内容 -->
+<view class="cart_content">
+    <view class="cart_title">完子之家</view>
+    <view class="cart_main">
+        <view class="cart_item" wx:for="{{cart}}" wx:key="cartId">
+            <!-- 商品图片 -->
+            <navigator class="cart_img_warp" url="../goods_detail/index?goodsId={{item.goodsId}}">
+                <image class="" src="{{item.goodsImage}}" mode="widthFix" lazy-load="false" binderror="" bindload="" />
+            </navigator>
+            <!-- 商品信息 -->
+            <view class="cart_info_warp">
+                <view class="goods_name">{{item.goodsName}}</view>
+                <view class="goods_value">
+                    <view class="goodnum">×1</view>
+                </view>
+                <view class="goods_price_warp">
+                    <view class="price">
+                        <view class="goods_price">¥{{item.goodsPrice}}</view>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>
+<view class="bottom">
+    <view class="coupon">
+        <view>优惠</view>
+        <view class="coupon_num" bindtap="powerDrawer" data-statu="open">
+            <view>无可用的优惠券</view>
+        </view>
+    </view>
+    <view class="goods_num">
+        <view>商品数</view>
+        <view class="goods_total">1</view>
+    </view>
+    <view class="total">
+        <view>总价</view>
+        <view class="total_price">¥{{totalPrice}}</view>
+    </view>
+</view>
+<!-- 底部工具栏 -->
+<view class="footer_tool">
+    <!-- 总价格 -->
+    <view class="total_price_warp">
+        <view class="total_price">
+            合计:
+            <text class="total_price_text">¥{{totalPrice}}</text>
+        </view>
+        <view>包含运费</view>
+    </view>
+    <!-- 结算 -->
+    <view class="order_pay_warp" bindtap="handleOrderPay">提交订单</view>
+</view>

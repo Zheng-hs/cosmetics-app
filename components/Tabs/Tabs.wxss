@@ -1,6 +1,7 @@
 .tabs_title {
   display: flex;
   overflow: hidden;
+  background-color: #fff;
 }
 .title_item {
   display: flex;
@@ -12,4 +13,10 @@
 .active {
   color: var(--themeColor);
   border-bottom: 5rpx solid currentColor;
+}
+.tabs_content {
+  height: 100%;
+}
+.tabs {
+  height: 100%;
 }

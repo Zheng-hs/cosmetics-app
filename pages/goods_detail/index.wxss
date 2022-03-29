@@ -159,6 +159,9 @@ page {
   color: #c8c8c8;
   font-size: 28rpx;
 }
+.goods_evaluation .common_body {
+  padding: 20rpx 10rpx;
+}
 .goods_evaluation .common_body .common_top {
   display: flex;
   align-items: center;

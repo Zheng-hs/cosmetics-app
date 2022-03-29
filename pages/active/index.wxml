@@ -1,0 +1,47 @@
+<view class="goods_img">
+    <image class="" src="{{goods.goodsImage}}" mode="widthFix" lazy-load="false" binderror="" bindload="" />
+</view>
+<view class="goods_detail">
+    <view class="goods_price">
+        <view class="price">¥{{goods.goodsPrice}}</view>
+        <view class="num">限量{{goods.goodsQuantity}}份</view>
+    </view>
+    <view class="goodsName">{{goods.goodsName}}</view>
+    <view class="time">
+        <view class="title"  wx:if="{{goods.status==2}}">已开奖</view>
+        <view class="title" wx:else>正在进行</view>
+        <view class="endtime"  wx:if="{{goods.status==2}}" bindtap="getPeople">中奖名单</view>
+        <view class="endtime" wx:else>活动至{{goods.endTime}}截止</view>
+    </view>
+</view>
+<view class="people">
+    <view class="people_title">已申请{{people.length}}人</view>
+    <view class="people_list">
+
+        <view class="img" wx:for="{{people}}" wx:key="activityUserId">
+            <image class="" src="{{item.imgPath}}" />
+              
+        </view>
+    </view>
+</view>
+<view class="btn" bindtap="req" wx:if="{{goods.status==1}}">立即申请</view>
+<view class="btn" bindtap="req" wx:elif="{{goods.status==3}}">已申请</view>
+<view class="btn" bindtap="req" wx:else>已开奖</view>
+
+
+<view class="wx-popup" hidden="{{flag}}">
+    <view class='popup-container'>
+        <view class="wx-popup-title">中奖名单</view>
+        <view class="name_list">
+
+            <view class="wx-popup-con" wx:for="{{list}}" wx:key="userId"  wx:for-index="index">
+                <image class="" src="{{item.imgPath}}" />
+                <view class="no">NO.{{index+1}}</view>
+                <view class="name">{{item.username}}</view>
+            </view>
+        </view>
+    </view>
+    <view class="wx-popup-btn">
+        <text class="iconfont  icon-guanbi2" bindtap='_error'></text>
+    </view>
+</view>
