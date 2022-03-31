@@ -16,7 +16,7 @@ Page({
    */
   data: {
     address: {},
-    cart: [],
+    cart: {},
     totalPrice: 0,
     totalNum: 0,
     oldTotalPrice: 0,
@@ -52,11 +52,13 @@ Page({
     this.setData({
       address
     });
-    this.cartList.push(cart[this.index]);
-    var totalPrice = this.cartList[0].goodsPrice
+    var temp = cart[this.index]
+    console.log(temp);
+    // this.cartList.push();
+    var totalPrice = cart[this.index].goodsPrice
     // 总价格 总数量
     this.setData({
-      cart: this.cartList,
+      cart: temp,
       address,
       totalPrice
     });

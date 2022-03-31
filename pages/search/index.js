@@ -36,9 +36,15 @@ Page({
 
   },
   async qsearch(query){
-    const res = await request({url:"/goods/qsearch",data:{query}});
+    const res = await request({
+      url: "/api/v2/app/notToken/searchGoods",
+      method: 'POST',
+      data: {
+        goodsName: query
+      }
+    });
     this.setData({
-      goods: res
+      goods: res.data
     })
   },
   handleCancel(){

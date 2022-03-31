@@ -56,7 +56,22 @@ Page({
             },
             method: "post"
           }).then(res=>{
-            wx.setStorageSync("token", res.data.token);
+            if(res.code==200) {
+
+              wx.setStorageSync("token", res.data.token);
+            } else {
+              wx.showToast({
+                title: '连接不到服务器',
+                icon: 'error',
+                // 防止用户手抖 疯狂点击按钮
+                mask: true,
+                success: (result) => {},
+                fail: () => {},
+                complete: () => {
+
+                }
+              });
+            }
           })
           // 把token存到缓存
           
