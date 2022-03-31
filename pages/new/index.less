@@ -1,0 +1,36 @@
+/* pages/new/index.wxss */
+page {
+    background-color: rgb(240,240,240);
+}
+.hot_goods {
+    display: flex;
+    // justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    navigator {
+        // flex: 2;
+        padding: 20rpx;
+        width: 240rpx;
+        text-align: center;
+        background-color: #fff;
+        margin: 5rpx;
+
+        image {
+            width: 100%;
+            // height: 100%;
+        }
+
+        view {
+            text-align: center;
+            display: -webkit-box;
+            overflow: hidden;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+        }
+
+        .goods_price {
+            color: red;
+            font-weight: 400;
+        }
+    }
+}

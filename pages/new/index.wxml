@@ -1,0 +1,10 @@
+<!-- pages/new/index.wxml -->
+<view>
+    <view class="hot_goods">
+        <navigator wx:for="{{goodsList}}" wx:for-item="item" wx:for-index="index" wx:key="goodsId" url="../goods_detail/index?goodsId={{item.goodsId}}">
+            <image class="" src="{{item.mainImage}}" mode="widthFix" lazy-load="false" binderror="" bindload="" />
+            <view>{{item.goodsName}}</view>
+            <view class="goods_price">¥{{item.goodsOldPrice}}</view>
+        </navigator>
+    </view>
+</view>

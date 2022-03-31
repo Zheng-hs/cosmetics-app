@@ -1,0 +1,30 @@
+/* pages/new/index.wxss */
+page {
+  background-color: #f0f0f0;
+}
+.hot_goods {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.hot_goods navigator {
+  padding: 20rpx;
+  width: 240rpx;
+  text-align: center;
+  background-color: #fff;
+  margin: 5rpx;
+}
+.hot_goods navigator image {
+  width: 100%;
+}
+.hot_goods navigator view {
+  text-align: center;
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+.hot_goods navigator .goods_price {
+  color: red;
+  font-weight: 400;
+}

@@ -21,34 +21,34 @@ Page({
     //     })
     //   }
     // });
-   this.getSwiperList();
-   this.getCateList();
-   this.getFloorList();
+    this.getSwiperList();
+    this.getCateList();
+    this.getFloorList();
   },
   getSwiperList() {
-     request({
-       url: "/api/v2/app/notToken/searchHomePageImg",
-       method: 'POST'
-     }).then(result => {
-       this.setData({
-         swiperList: result.data.data
-       })
-     })
-       
-  },
-  getCateList() {
-     request({
-       url: "/api/v2/app/notToken/searchHotGoods?pageNo=1&pageSize=6",
-       method: 'POST'
-     }).then(result => {
-      //  console.log(result);
-       this.setData({
-         catesList: result.data.data
-       })
-     })
+    request({
+      url: "/api/v2/app/notToken/searchHomePageImg",
+      method: 'POST'
+    }).then(result => {
+      this.setData({
+        swiperList: result.data.data
+      })
+    })
 
   },
-  goSeckill(){
+  getCateList() {
+    request({
+      url: "/api/v2/app/notToken/searchHotGoods?pageNo=1&pageSize=6",
+      method: 'POST'
+    }).then(result => {
+      //  console.log(result);
+      this.setData({
+        catesList: result.data.data
+      })
+    })
+
+  },
+  goSeckill() {
     if (!wx.getStorageSync("token")) {
       wx.showModal({
         title: '提示',
@@ -67,12 +67,12 @@ Page({
       wx.navigateTo({
         url: '/pages/goods_list/index',
         success: (result) => {
-          
+
         },
         fail: () => {},
         complete: () => {}
       });
-        
+
     }
   },
   gotry() {
@@ -94,26 +94,27 @@ Page({
       wx.navigateTo({
         url: '/pages/try_goods/index',
         success: (result) => {
-          
+
         },
         fail: () => {},
         complete: () => {}
       });
-        
+
     }
   },
   getFloorList() {
-     request({
-       url: "/api/v2/app/notToken/getArticles",
-       method: 'POST',
-       data: {
-         articlesId: 1}
-     }).then(result => {
-       this.setData({
-         floorList: result.data.data
-       })
-     })
-       
+    request({
+      url: "/api/v2/app/notToken/getArticles",
+      method: 'POST',
+      data: {
+        articlesId: 1
+      }
+    }).then(result => {
+      this.setData({
+        floorList: result.data.data
+      })
+    })
+
   },
   onReady: function () {
 
