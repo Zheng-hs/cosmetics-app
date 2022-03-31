@@ -15,10 +15,10 @@ export const request=(params)=> {
 
     ajaxTimes++;
     //显示加载中效果
-    wx.showLoading({
-        title: "加载中",
-        mask: true
-    });
+    // wx.showLoading({
+    //     title: "加载中",
+    //     mask: true
+    // });
       
     // 定义公共的url
     const baseUrl = "http://1.15.186.9:8006";

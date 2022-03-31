@@ -103,7 +103,6 @@ Page({
         wx.showToast({
           title: '申请成功',
           icon: 'success',
-          duration: 5000,
           // 防止用户手抖 疯狂点击按钮
           mask: true,
           success: (result) => {},

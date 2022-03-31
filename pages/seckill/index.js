@@ -25,7 +25,7 @@ Page({
     couponNum:0
   },
   couponList: [],
-  cartList:[],
+  cartList:'',
   index:0,
   
   /**
@@ -52,6 +52,7 @@ Page({
     this.setData({
       address
     });
+    this.cartList = cart[this.index].activityId
     var temp = cart[this.index]
     console.log(temp);
     // this.cartList.push();
@@ -88,7 +89,7 @@ Page({
       url: "/api/v2/app/token/addActivityOrder",
       method: "POST",
       data: {
-        activityId: this.cartList[0].activityId,
+        activityId: this.cartList,
         userName: address.userName,
         limitQuantity: 1,
         userPhone: address.telNumber,
@@ -102,7 +103,6 @@ Page({
         wx.showToast({
           title: '抢购成功',
           icon: 'success',
-          duration: 5000,
           // 防止用户手抖 疯狂点击按钮
           mask: true,
           success: (result) => {
@@ -116,7 +116,6 @@ Page({
         wx.showToast({
           title: res.message,
           icon: 'none',
-          duration: 5000,
           // 防止用户手抖 疯狂点击按钮
           mask: true,
           success: (result) => {},

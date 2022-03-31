@@ -234,24 +234,22 @@ Page({
       method: "POST",
       data: orderlist
     }).then(res => {
-      if (res.code == 200) {
-        wx.navigateBack({
-          delta: 1
-        });
-        wx.showToast({
-          title: '下单成功',
-          icon: 'success',
-          duration: 5000,
-          // 防止用户手抖 疯狂点击按钮
-          mask: true,
-          success: (result) => {
-          },
-          fail: () => {},
-          complete: () => {
-            
-          }
-        });
-      }
+       if (res.code == 200) {
+         wx.navigateBack({
+           delta: 1
+         });
+         wx.showToast({
+           title: '下单成功',
+           icon: 'success',
+           // 防止用户手抖 疯狂点击按钮
+           mask: true,
+           success: (result) => {},
+           fail: () => {},
+           complete: () => {
+
+           }
+         });
+       }
     })
 
   },

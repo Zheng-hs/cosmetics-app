@@ -18,7 +18,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    address:[],
+    address: [],
     currentIndex: 0,
   },
 
@@ -26,14 +26,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    request({
-      url: '/api/v1/address/search'
-    }).then(res=>{
-      this.setData({
-        address: res.data
-      })
-      wx.setStorageSync("ads", res.data);
-    })
+
   },
   goAddress() {
     wx.navigateTo({
@@ -50,7 +43,7 @@ Page({
     const i = e.currentTarget.dataset.index
     const ad = wx.getStorageSync('ads');
     const address = {
-      all: ad[i].province+ad[i].city+ad[i].area+ad[i].address,
+      all: ad[i].province + ad[i].city + ad[i].area + ad[i].address,
       userName: ad[i].userName,
       telNumber: ad[i].phone
     }
@@ -61,18 +54,18 @@ Page({
     wx.navigateBack({
       delta: 1
     });
-      
+
   },
   getDetail(e) {
     const index = e.currentTarget.dataset.index
-     wx.navigateTo({
-       url: '/pages/add/index'+'?i='+index,
-       success: (result) => {
+    wx.navigateTo({
+      url: '/pages/add/index' + '?i=' + index,
+      success: (result) => {
 
-       },
-       fail: () => {},
-       complete: () => {}
-     });
+      },
+      fail: () => {},
+      complete: () => {}
+    });
   },
   /**
    * 生命周期函数--监听页面初次渲染完成
@@ -85,7 +78,14 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    request({
+      url: '/api/v1/address/search'
+    }).then(res => {
+      this.setData({
+        address: res.data
+      })
+      wx.setStorageSync("ads", res.data);
+    })
   },
 
   /**
