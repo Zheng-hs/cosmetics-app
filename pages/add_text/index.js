@@ -185,7 +185,7 @@ Page({
       url: '/api/v1/articles/add',
       method: 'POST',
       data: {
-        articlesAuthor:'admin',
+        articlesAuthor: wx.getStorageSync('userinfo').nickName,
         articlesClassifyId: this.articlesClassifyId,
         articlesContent: that.data.articleContent,
         articlesDescribe: '',

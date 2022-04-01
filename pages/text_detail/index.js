@@ -16,6 +16,7 @@ Page({
     showModalStatus: false,
     showModalStatus1: false,
     showModalStatus2: false,
+    articlesContent: ''
   },
   commentId:"",
   replyId: "",
@@ -178,8 +179,19 @@ Page({
 
     if (!options.i) {
       let isCollect = collect.some(v => v.articlesId === a[options.index].articlesId);
+      var result = collect[options.index].articlesContent;
+      let html = result
+        .replace(/<p([\s\w"=\/\.:;]+)((?:(style="[^"]+")))/ig, '<p')
+        .replace(/<p>/ig, '<p style="font-size: 15Px; line-height: 25Px;">')
+        .replace(/<img([\s\w"-=\/\.:;]+)((?:(height="[^"]+")))/ig, '<img$1')
+        .replace(/<img([\s\w"-=\/\.:;]+)((?:(width="[^"]+")))/ig, '<img$1')
+        .replace(/<img([\s\w"-=\/\.:;]+)((?:(style="[^"]+")))/ig, '<img$1')
+        .replace(/<img([\s\w"-=\/\.:;]+)((?:(alt="[^"]+")))/ig, '<img$1')
+        .replace(/<img([\s\w"-=\/\.:;]+)/ig, '<img$1 style="width: 100%; border-radius: 8Px;"');
+
       this.setData({
         content: collect[options.index],
+        articlesContent: html,
         isCollect
       })
       request({
@@ -197,8 +209,18 @@ Page({
       });
     } else {
       let isCollect = collect.some(v => v.articlesId === a[options.i].articlesId);
+      var result = a[options.i].articlesContent;
+      let html = result
+        .replace(/<p([\s\w"=\/\.:;]+)((?:(style="[^"]+")))/ig, '<p')
+        .replace(/<p>/ig, '<p style="font-size: 15Px; line-height: 25Px;">')
+        .replace(/<img([\s\w"-=\/\.:;]+)((?:(height="[^"]+")))/ig, '<img$1')
+        .replace(/<img([\s\w"-=\/\.:;]+)((?:(width="[^"]+")))/ig, '<img$1')
+        .replace(/<img([\s\w"-=\/\.:;]+)((?:(style="[^"]+")))/ig, '<img$1')
+        .replace(/<img([\s\w"-=\/\.:;]+)((?:(alt="[^"]+")))/ig, '<img$1')
+        .replace(/<img([\s\w"-=\/\.:;]+)/ig, '<img$1 style="width: 100%; border-radius: 8Px;"');
       this.setData({
         content: a[options.i],
+        articlesContent: html,
         isCollect
       })
       request({

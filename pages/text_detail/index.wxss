@@ -9,6 +9,9 @@ page {
   padding: 20rpx;
   background-color: #fff;
 }
+image {
+  width: 95%;
+}
 .first {
   display: flex;
   justify-content: space-between;

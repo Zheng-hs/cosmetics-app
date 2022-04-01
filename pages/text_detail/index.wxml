@@ -5,7 +5,7 @@
     <view class="time">{{content.createTime}}</view>
 </view>
 <view class="content">
-    <rich-text nodes="{{content.articlesContent}}"></rich-text>
+    <rich-text nodes="{{articlesContent}}"></rich-text>
 </view>
 <view class="goods_evaluation">
     <view class="common_title">
