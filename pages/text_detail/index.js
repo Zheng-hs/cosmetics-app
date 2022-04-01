@@ -172,13 +172,23 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    
     const a = wx.getStorageSync("content");
     // 1 获取缓存中的商品收藏的数组
     let collect = wx.getStorageSync("collects") || [];
     // 2 判断当前商品是否被收藏
 
     if (!options.i) {
-      let isCollect = collect.some(v => v.articlesId === a[options.index].articlesId);
+      request({
+        url: '/api/v2/app/notToken/getArticles',
+        method: 'POST',
+        data: {
+          articlesId: collect[options.index].articlesId,
+        }
+      }).then(res => {
+
+      })
+      let isCollect = collect.some(v => v.articlesId === collect[options.index].articlesId);
       var result = collect[options.index].articlesContent;
       let html = result
         .replace(/<p([\s\w"=\/\.:;]+)((?:(style="[^"]+")))/ig, '<p')
@@ -198,7 +208,7 @@ Page({
         url: "/api/v1/comment/search",
         method: 'POST',
         data: {
-          articlesId: a[options.index].articlesId,
+          articlesId: collect[options.index].articlesId,
           commentType: 1
         }
       }).then(res => {
@@ -208,6 +218,15 @@ Page({
         })
       });
     } else {
+      request({
+        url: '/api/v2/app/notToken/getArticles',
+        method: 'POST',
+        data: {
+          articlesId: a[options.i].articlesId,
+        }
+      }).then(res => {
+
+      })
       let isCollect = collect.some(v => v.articlesId === a[options.i].articlesId);
       var result = a[options.i].articlesContent;
       let html = result

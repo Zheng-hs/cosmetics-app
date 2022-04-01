@@ -48,7 +48,7 @@
   </view>
 
    <!-- 楼层 -->
-  <view class="hot_title">热门商品</view>
+  <view class="hot_title">热门文章</view>
   <view class="hot_articles">
     <navigator url="/pages/text_detail/index?i={{index}}" wx:for="{{floorList}}" wx:for-item="item" wx:for-index="index" wx:key="goodsId">
       <!-- <rich-text nodes="{{item.articlesContent}}"></rich-text> -->
@@ -59,7 +59,7 @@
             <view class="view_num"><text class="iconfont icon-yanjing"></text>{{item.articlesPageView}}</view>
           </view>
         </view>
-       <image class="" src="{{item.articlesImg}}" mode="widthFix" lazy-load="false" binderror="" bindload="" />
+       <image class="" src="{{item.articlesImg}}"/>
     </navigator>
   </view>
 </view>

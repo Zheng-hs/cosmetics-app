@@ -107,7 +107,7 @@ Page({
       url: "/api/v2/app/notToken/getArticles",
       method: 'POST',
       data: {
-        articlesId: 1
+        articlesType: 1
       }
     }).then(result => {
       this.setData({
