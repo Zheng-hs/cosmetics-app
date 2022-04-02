@@ -58,7 +58,7 @@
   border-top: 1px solid #dfdfdf;
   padding: 10rpx;
   position: relative;
-  width: 100%;
+  flex: 1;
   height: 260rpx;
 }
 button {
@@ -119,4 +119,48 @@ textarea {
   align-items: center;
   flex-wrap: wrap;
   padding: 20rpx;
+}
+.choose {
+  display: flex;
+  justify-content: space-around;
+}
+.select_input {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1rpx solid #eee;
+  width: 90%;
+  padding: 10rpx;
+  height: 70rpx;
+  border-radius: 10rpx;
+}
+.input {
+  flex: 10;
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+.icon {
+  font-size: 40rpx;
+  padding-top: 20rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80%;
+  flex: 1;
+}
+.select-box {
+  flex: 1;
+  margin-top: 10rpx;
+}
+.select_inner {
+  height: 300rpx;
+  overflow: scroll;
+  border: 1rpx solid #eee;
+}
+.select {
+  padding: 10rpx;
+  border-top: 1rpx solid #eee;
+  font-size: 20rpx;
 }

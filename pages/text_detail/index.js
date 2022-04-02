@@ -18,8 +18,9 @@ Page({
     showModalStatus2: false,
     articlesContent: ''
   },
-  commentId:"",
+  commentId: "",
   replyId: "",
+  articlesId: '',
   powerDrawer: function (e) {
     var currentStatu = e.currentTarget.dataset.statu;
     this.util(currentStatu)
@@ -72,7 +73,7 @@ Page({
     var currentStatu = e.currentTarget.dataset.statu;
     this.util1(currentStatu)
     this.commentId = e.currentTarget.dataset.id
-    
+
   },
   util1: function (currentStatu) {
     /* 动画部分 */
@@ -122,7 +123,7 @@ Page({
     var currentStatu = e.currentTarget.dataset.statu;
     this.util2(currentStatu)
     this.replyId = e.currentTarget.dataset.id
-    
+
   },
   util2: function (currentStatu) {
     /* 动画部分 */
@@ -172,13 +173,14 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    
+
     const a = wx.getStorageSync("content");
     // 1 获取缓存中的商品收藏的数组
     let collect = wx.getStorageSync("collects") || [];
     // 2 判断当前商品是否被收藏
 
     if (!options.i) {
+      this.articlesId = collect[options.index].articlesId
       request({
         url: '/api/v2/app/notToken/getArticles',
         method: 'POST',
@@ -218,6 +220,7 @@ Page({
         })
       });
     } else {
+      this.articlesId = a[options.i].articlesId
       request({
         url: '/api/v2/app/notToken/getArticles',
         method: 'POST',
@@ -257,6 +260,29 @@ Page({
       });
     }
   },
+  dianzan() {
+    request({
+      url: '/api/v1/articles/addArticlesLike',
+      method: 'POST',
+      data: {
+        articlesId: this.articlesId
+      }
+    }).then(res => {
+      if (res.code == 200) {
+        request({
+          url: '/api/v2/app/notToken/getArticles',
+          method: 'POST',
+          data: {
+            articlesId: this.articlesId
+          }
+        }).then(res => {
+          this.setData({
+            content: res.data.data[0]
+          })
+        })
+      }
+    })
+  },
   replay() {
     if (this.data.textVal === '') {
       wx.showToast({
@@ -271,46 +297,46 @@ Page({
         complete: () => {}
       });
     } else {
-    request({
-      url: '/api/v1/reply/add',
-      method: "POST",
-      data: {
-        commentId: this.commentId,
-        replyContent: this.data.textVal,
-        commentUser: wx.getStorageSync('userinfo').nickName
-      }
-    }).then(res=>{
-       if (res.code == 200) {
-         this.setData({
-           showModalStatus1: false,
-           textVal: ''
-         });
-         wx.showToast({
-           title: '评论成功',
-           icon: 'success',
-           // 防止用户手抖 疯狂点击按钮
-           mask: true,
-           success: (result) => {
-             request({
-               url: "/api/v1/comment/search",
-               method: 'POST',
-               data: {
-                 uid: this.data.content.articlesId,
-                 commentType: 1
-               }
-             }).then(res => {
-               // console.log(res);
-               this.setData({
-                 evaluationList: res.data.data
-               })
-             });
-           },
-           fail: () => {},
-           complete: () => {}
-         });
-       }
-    })
-  }
+      request({
+        url: '/api/v1/reply/add',
+        method: "POST",
+        data: {
+          commentId: this.commentId,
+          replyContent: this.data.textVal,
+          commentUser: wx.getStorageSync('userinfo').nickName
+        }
+      }).then(res => {
+        if (res.code == 200) {
+          this.setData({
+            showModalStatus1: false,
+            textVal: ''
+          });
+          wx.showToast({
+            title: '评论成功',
+            icon: 'success',
+            // 防止用户手抖 疯狂点击按钮
+            mask: true,
+            success: (result) => {
+              request({
+                url: "/api/v1/comment/search",
+                method: 'POST',
+                data: {
+                  uid: this.data.content.articlesId,
+                  commentType: 1
+                }
+              }).then(res => {
+                // console.log(res);
+                this.setData({
+                  evaluationList: res.data.data
+                })
+              });
+            },
+            fail: () => {},
+            complete: () => {}
+          });
+        }
+      })
+    }
   },
   replay1() {
     if (this.data.textVal === '') {
@@ -326,47 +352,47 @@ Page({
         complete: () => {}
       });
     } else {
-    request({
-      url: '/api/v1/reply/add',
-      method: "POST",
-      data: {
-        commentId: this.replyId,
-        replyContent: this.data.textVal,
-        commentUser: wx.getStorageSync('userinfo').nickName
-                  
-      }
-    }).then(res=>{
-       if (res.code == 200) {
-         this.setData({
-           showModalStatus2: false,
-           textVal: ''
-         });
-         wx.showToast({
-           title: '评论成功',
-           icon: 'success',
-           // 防止用户手抖 疯狂点击按钮
-           mask: true,
-           success: (result) => {
-             request({
-               url: "/api/v1/comment/search",
-               method: 'POST',
-               data: {
-                 uid: this.data.content.articlesId,
-                 commentType: 1
-               }
-             }).then(res => {
-               // console.log(res);
-               this.setData({
-                 evaluationList: res.data.data
-               })
-             });
-           },
-           fail: () => {},
-           complete: () => {}
-         });
-       }
-    })
-  }
+      request({
+        url: '/api/v1/reply/add',
+        method: "POST",
+        data: {
+          commentId: this.replyId,
+          replyContent: this.data.textVal,
+          commentUser: wx.getStorageSync('userinfo').nickName
+
+        }
+      }).then(res => {
+        if (res.code == 200) {
+          this.setData({
+            showModalStatus2: false,
+            textVal: ''
+          });
+          wx.showToast({
+            title: '评论成功',
+            icon: 'success',
+            // 防止用户手抖 疯狂点击按钮
+            mask: true,
+            success: (result) => {
+              request({
+                url: "/api/v1/comment/search",
+                method: 'POST',
+                data: {
+                  uid: this.data.content.articlesId,
+                  commentType: 1
+                }
+              }).then(res => {
+                // console.log(res);
+                this.setData({
+                  evaluationList: res.data.data
+                })
+              });
+            },
+            fail: () => {},
+            complete: () => {}
+          });
+        }
+      })
+    }
   },
   handleTextInput(e) {
     this.setData({

@@ -82,6 +82,29 @@ image {
   height: 100%;
   opacity: 0;
 }
+.icon-dianzan2 {
+  color: orangered;
+}
+.goods_buy {
+  background-color: #fff;
+  border-radius: 20rpx;
+  padding: 10rpx;
+  margin: 20rpx;
+  display: flex;
+}
+.goods_buy image {
+  flex: 1;
+}
+.goods_buy .goods_text {
+  flex: 3;
+  padding: 20rpx;
+}
+.goods_buy .goods_text .goodsName {
+  margin-bottom: 30rpx;
+}
+.goods_buy .goods_text .goodsprice {
+  color: var(--themeColor);
+}
 /*mask*/
 .drawer_screen {
   width: 100%;

@@ -7,6 +7,13 @@
 <view class="content">
     <rich-text nodes="{{articlesContent}}"></rich-text>
 </view>
+<navigator class="goods_buy"  url="../goods_detail/index?goodsId={{content.goodsEntity[0].goodsId}}">
+    <image class="" src="{{content.goodsEntity[0].mainImage}}" mode="widthFix" lazy-load="false" binderror="" bindload="" />
+    <view class="goods_text">
+        <view class="goodsName">{{content.goodsEntity[0].goodsName}}</view>
+        <view class="goodsprice">¥{{content.goodsEntity[0].goodsNewPrice}}</view>
+    </view>
+</navigator>
 <view class="goods_evaluation">
     <view class="common_title">
         <view class="common_text">精选评论({{evaluationList.length}})</view>
@@ -36,8 +43,8 @@
         <text class="iconfont icon-bianjishuru-xianxing"></text>
         <view>说点什么...</view>
     </view>
-    <view class="good">
-        <text class="iconfont  icon-dianzan1"></text>
+    <view class="good" bindtap="dianzan">
+        <text class="iconfont    {{content.isLike==1?'icon-dianzan2':'icon-dianzan1'}}"></text>
         {{content.articlesLike}}
     </view>
     <view class="collect" bindtap="handleCollect">

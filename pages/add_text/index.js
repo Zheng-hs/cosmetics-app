@@ -18,10 +18,14 @@ Page({
     isIOS: false,
     textVal: '',
     currentIndex1: 0,
-    classify:[],
-    src: ''
+    classify: [],
+    src: '',
+    goodsname: '请选择商品',
+    goodsList: [],
+    isShow: false
   },
   articlesClassifyId: '',
+  goodsId: '',
   // -----------富文本编辑器 start ------------------
   readOnlyChange() {
     this.setData({
@@ -118,7 +122,7 @@ Page({
     })
   },
   handleChooseImg() {
-     const that = this
+    const that = this
     wx.chooseImage({
       count: 1,
       success: function (res) {
@@ -181,37 +185,73 @@ Page({
   },
   sumbit() {
     const that = this
-    request({
-      url: '/api/v1/articles/add',
-      method: 'POST',
-      data: {
-        articlesAuthor: wx.getStorageSync('userinfo').nickName,
-        articlesClassifyId: this.articlesClassifyId,
-        articlesContent: that.data.articleContent,
-        articlesDescribe: '',
-        articlesImg: that.data.src,
-        articlesTitle: that.data.textVal,
-        articlesType: 2
-      }
-    }).then(res=> {
-      if(res.code==200) {
-        wx.navigateBack({
-          delta: 1
-        });
-          
-         wx.showToast({
-           title: '发布成功',
-           icon: 'success',
-           // 防止用户手抖 疯狂点击按钮
-           mask: true,
-           success: (result) => {},
-           fail: () => {},
-           complete: () => {
+    if (this.goodsId === '') {
+      request({
+        url: '/api/v1/articles/add',
+        method: 'POST',
+        data: {
+          articlesAuthor: wx.getStorageSync('userinfo').nickName,
+          articlesClassifyId: this.articlesClassifyId,
+          articlesContent: that.data.articleContent,
+          articlesDescribe: '',
+          articlesImg: that.data.src,
+          articlesTitle: that.data.textVal,
+          articlesType: 2
+        }
+      }).then(res => {
+        if (res.code == 200) {
+          wx.navigateBack({
+            delta: 1
+          });
 
-           }
-         });
-      }
-    })
+          wx.showToast({
+            title: '发布成功',
+            icon: 'success',
+            // 防止用户手抖 疯狂点击按钮
+            mask: true,
+            success: (result) => {},
+            fail: () => {},
+            complete: () => {
+
+            }
+          });
+        }
+      })
+    } else {
+      request({
+        url: '/api/v1/articles/add',
+        method: 'POST',
+        data: {
+          articlesAuthor: wx.getStorageSync('userinfo').nickName,
+          articlesClassifyId: this.articlesClassifyId,
+          articlesContent: that.data.articleContent,
+          articlesDescribe: '',
+          articlesImg: that.data.src,
+          articlesTitle: that.data.textVal,
+          articlesType: 2,
+          goodsId: this.goodsId
+        }
+      }).then(res => {
+        if (res.code == 200) {
+          wx.navigateBack({
+            delta: 1
+          });
+
+          wx.showToast({
+            title: '发布成功',
+            icon: 'success',
+            // 防止用户手抖 疯狂点击按钮
+            mask: true,
+            success: (result) => {},
+            fail: () => {},
+            complete: () => {
+
+            }
+          });
+        }
+      })
+    }
+
   },
   async chooseTag(e) {
     const {
@@ -219,9 +259,21 @@ Page({
       id1
     } = e.currentTarget.dataset;
     this.articlesClassifyId = id1
-     this.setData({
-       currentIndex1: index1
-     })
+    this.setData({
+      currentIndex1: index1
+    })
+  },
+  chooseGoods(e) {
+    this.goodsId = e.currentTarget.dataset.id
+    this.setData({
+      goodsname: e.currentTarget.dataset.name,
+      isShow: false
+    })
+  },
+  show() {
+    this.setData({
+      isShow: true
+    })
   },
   /**
    * 生命周期函数--监听页面加载
@@ -231,6 +283,16 @@ Page({
     this.articlesClassifyId = classify[0].articlesClassifyId
     this.setData({
       classify
+    })
+    request({
+      url: "/api/v2/app/notToken/searchGoods",
+      method: 'POST',
+      data: {}
+    }).then(res => {
+
+      this.setData({
+        goodsList: res.data
+      })
     })
   },
 

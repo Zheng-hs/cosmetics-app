@@ -6,10 +6,24 @@
 <view class="text_title">
     <textarea value="{{textVal}}" auto-focus bindinput="handleTextInput" placeholder="请输入标题"></textarea>
 </view>
-<view class="img">
-    <view class="img_title">封面图片</view>
-    <image src="{{src}}" bindtap="handleChooseImg" />
-    <button bindtap="handleChooseImg" wx:if="{{src===''}}">+</button>
+<view class="choose">
+
+    <view class="img">
+        <view class="img_title">封面图片</view>
+        <image src="{{src}}" bindtap="handleChooseImg" />
+        <button bindtap="handleChooseImg" wx:if="{{src===''}}">+</button>
+    </view>
+    <view class="select-box">
+        <view class="select_input" bindtap="show">
+            <view class="input">{{goodsname}}</view>
+            <view class="icon">
+                    ˇ
+            </view>
+        </view>
+        <view class="select_inner" wx:if="{{isShow}}">
+            <view class="select" wx:for="{{goodsList}}" wx:key="goodsId" data-id="{{item.goodsId}}"  data-name="{{item.goodsName}}" bindtap="chooseGoods">{{item.goodsName}}</view>
+        </view>
+    </view>
 </view>
 <scroll-view scroll-y="true" style="height: 500rpx;">
     <!-- 根据需要设置滚动条 -->

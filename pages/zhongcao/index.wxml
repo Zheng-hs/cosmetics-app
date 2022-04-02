@@ -7,7 +7,7 @@
                 <view class="info">
                     <view class="author">{{item.articlesAuthor}}</view>
                     <view class="view_num">
-                        <text class="iconfont  icon-dianzan1"></text>
+                        <text class="iconfont    {{item.isLike==1?'icon-dianzan2':'icon-dianzan1'}}"></text>
                         {{item.articlesLike}}
                     </view>
                 </view>
