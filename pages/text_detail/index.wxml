@@ -7,7 +7,7 @@
 <view class="content">
     <rich-text nodes="{{articlesContent}}"></rich-text>
 </view>
-<navigator class="goods_buy"  url="../goods_detail/index?goodsId={{content.goodsEntity[0].goodsId}}">
+<navigator wx:if="{{content.goodsEntity!=null}}" class="goods_buy"  url="../goods_detail/index?goodsId={{content.goodsEntity[0].goodsId}}">
     <image class="" src="{{content.goodsEntity[0].mainImage}}" mode="widthFix" lazy-load="false" binderror="" bindload="" />
     <view class="goods_text">
         <view class="goodsName">{{content.goodsEntity[0].goodsName}}</view>
@@ -38,6 +38,10 @@
         </view>
     </view>
 </view>
+<view bindtap="scroll" class="biji"  wx:if="{{content.goodsEntity!=null}}">
+    相关商品
+</view>
+  
 <view class="bottom">
     <view class="input_btn" bindtap="powerDrawer" data-statu="open">
         <text class="iconfont icon-bianjishuru-xianxing"></text>

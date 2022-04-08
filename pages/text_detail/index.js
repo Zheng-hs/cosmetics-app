@@ -283,6 +283,13 @@ Page({
       }
     })
   },
+  scroll() {
+    console.log(111);
+    wx.pageScrollTo({
+      selector: '.goods_buy',
+      duration: 100
+    })
+  },
   replay() {
     if (this.data.textVal === '') {
       wx.showToast({
