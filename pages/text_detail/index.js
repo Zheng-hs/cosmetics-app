@@ -21,6 +21,7 @@ Page({
   commentId: "",
   replyId: "",
   articlesId: '',
+  a:[],
   powerDrawer: function (e) {
     var currentStatu = e.currentTarget.dataset.statu;
     this.util(currentStatu)
@@ -173,44 +174,40 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
-    const a = wx.getStorageSync("content");
     // 1 获取缓存中的商品收藏的数组
     let collect = wx.getStorageSync("collects") || [];
     // 2 判断当前商品是否被收藏
-
-    if (!options.i) {
-      this.articlesId = collect[options.index].articlesId
       request({
         url: '/api/v2/app/notToken/getArticles',
         method: 'POST',
         data: {
-          articlesId: collect[options.index].articlesId,
+          articlesId: options.id,
         }
       }).then(res => {
-
+        this.a = res.data.data
+        let isCollect = collect.some(v => v.articlesId == options.id);
+        var result = this.a[0].articlesContent;
+        let html = result
+          .replace(/<p([\s\w"=\/\.:;]+)((?:(style="[^"]+")))/ig, '<p')
+          .replace(/<p>/ig, '<p style="font-size: 15Px; line-height: 25Px;">')
+          .replace(/<img([\s\w"-=\/\.:;]+)((?:(height="[^"]+")))/ig, '<img$1')
+          .replace(/<img([\s\w"-=\/\.:;]+)((?:(width="[^"]+")))/ig, '<img$1')
+          .replace(/<img([\s\w"-=\/\.:;]+)((?:(style="[^"]+")))/ig, '<img$1')
+          .replace(/<img([\s\w"-=\/\.:;]+)((?:(alt="[^"]+")))/ig, '<img$1')
+          .replace(/<img([\s\w"-=\/\.:;]+)/ig, '<img$1 style="width: 100%; border-radius: 8Px;"');
+        this.setData({
+          content: this.a[0],
+          articlesContent: html,
+          isCollect
+        })
       })
-      let isCollect = collect.some(v => v.articlesId === collect[options.index].articlesId);
-      var result = collect[options.index].articlesContent;
-      let html = result
-        .replace(/<p([\s\w"=\/\.:;]+)((?:(style="[^"]+")))/ig, '<p')
-        .replace(/<p>/ig, '<p style="font-size: 15Px; line-height: 25Px;">')
-        .replace(/<img([\s\w"-=\/\.:;]+)((?:(height="[^"]+")))/ig, '<img$1')
-        .replace(/<img([\s\w"-=\/\.:;]+)((?:(width="[^"]+")))/ig, '<img$1')
-        .replace(/<img([\s\w"-=\/\.:;]+)((?:(style="[^"]+")))/ig, '<img$1')
-        .replace(/<img([\s\w"-=\/\.:;]+)((?:(alt="[^"]+")))/ig, '<img$1')
-        .replace(/<img([\s\w"-=\/\.:;]+)/ig, '<img$1 style="width: 100%; border-radius: 8Px;"');
-
-      this.setData({
-        content: collect[options.index],
-        articlesContent: html,
-        isCollect
-      })
+      
+      
       request({
         url: "/api/v1/comment/search",
         method: 'POST',
         data: {
-          articlesId: collect[options.index].articlesId,
+          uid: options.id,
           commentType: 1
         }
       }).then(res => {
@@ -219,46 +216,6 @@ Page({
           evaluationList: res.data.data
         })
       });
-    } else {
-      this.articlesId = a[options.i].articlesId
-      request({
-        url: '/api/v2/app/notToken/getArticles',
-        method: 'POST',
-        data: {
-          articlesId: a[options.i].articlesId,
-        }
-      }).then(res => {
-
-      })
-      let isCollect = collect.some(v => v.articlesId === a[options.i].articlesId);
-      var result = a[options.i].articlesContent;
-      let html = result
-        .replace(/<p([\s\w"=\/\.:;]+)((?:(style="[^"]+")))/ig, '<p')
-        .replace(/<p>/ig, '<p style="font-size: 15Px; line-height: 25Px;">')
-        .replace(/<img([\s\w"-=\/\.:;]+)((?:(height="[^"]+")))/ig, '<img$1')
-        .replace(/<img([\s\w"-=\/\.:;]+)((?:(width="[^"]+")))/ig, '<img$1')
-        .replace(/<img([\s\w"-=\/\.:;]+)((?:(style="[^"]+")))/ig, '<img$1')
-        .replace(/<img([\s\w"-=\/\.:;]+)((?:(alt="[^"]+")))/ig, '<img$1')
-        .replace(/<img([\s\w"-=\/\.:;]+)/ig, '<img$1 style="width: 100%; border-radius: 8Px;"');
-      this.setData({
-        content: a[options.i],
-        articlesContent: html,
-        isCollect
-      })
-      request({
-        url: "/api/v1/comment/search",
-        method: 'POST',
-        data: {
-          uid: a[options.i].articlesId,
-          commentType: 1
-        }
-      }).then(res => {
-        //  console.log(res);
-        this.setData({
-          evaluationList: res.data.data
-        })
-      });
-    }
   },
   dianzan() {
     request({

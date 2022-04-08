@@ -50,7 +50,7 @@
    <!-- 楼层 -->
   <view class="hot_title">热门文章</view>
   <view class="hot_articles">
-    <navigator url="/pages/text_detail/index?i={{index}}" wx:for="{{floorList}}" wx:for-item="item" wx:for-index="index" wx:key="goodsId">
+    <navigator url="/pages/text_detail/index?id={{item.articlesId}}" wx:for="{{floorList}}" wx:for-item="item" wx:for-index="index" wx:key="articlesId">
       <!-- <rich-text nodes="{{item.articlesContent}}"></rich-text> -->
         <view class="left">
           <view class="articles_title">{{item.articlesTitle}}</view>
