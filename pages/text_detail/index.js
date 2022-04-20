@@ -176,6 +176,7 @@ Page({
   onLoad: function (options) {
     // 1 获取缓存中的商品收藏的数组
     let collect = wx.getStorageSync("collects") || [];
+    this.articlesId = options.id
     // 2 判断当前商品是否被收藏
       request({
         url: '/api/v2/app/notToken/getArticles',

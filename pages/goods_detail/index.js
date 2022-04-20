@@ -224,23 +224,40 @@ Page({
     })
   },
   buy() {
-    let cart = []
-    let temp = {
-        goodsId: this.GoodsInfo.goodsId,
-        goodsName: this.GoodsInfo.goodsName,
-        goodsNormsValue: this.list[this.i].normsValue,
-        goodsAmount: parseInt(this.num),
-        goodsOldPrice: this.GoodsInfo.goodsOldPrice,
-        goodsNewPrice: this.GoodsInfo.goodsNewPrice,
-        imgPath: this.GoodsInfo.mainImage,
-        checked: true,
-        cartId:0
-    }
-    cart.push(temp)
-    wx.setStorageSync("cart", cart);
-     wx.navigateTo({
-       url: '/pages/pay/index'
-     })
+     if (!wx.getStorageSync("token")) {
+       wx.showModal({
+         title: '提示',
+         content: '请先登录',
+         success(res) {
+           if (res.confirm) {
+             wx.navigateTo({
+               url: '/pages/login/index'
+             })
+           } else if (res.cancel) {
+
+           }
+         }
+       })
+     } else {
+
+       let cart = []
+       let temp = {
+           goodsId: this.GoodsInfo.goodsId,
+           goodsName: this.GoodsInfo.goodsName,
+           goodsNormsValue: this.list[this.i].normsValue,
+           goodsAmount: parseInt(this.num),
+           goodsOldPrice: this.GoodsInfo.goodsOldPrice,
+           goodsNewPrice: this.GoodsInfo.goodsNewPrice,
+           imgPath: this.GoodsInfo.mainImage,
+           checked: true,
+           cartId:0
+       }
+       cart.push(temp)
+       wx.setStorageSync("cart", cart);
+        wx.navigateTo({
+          url: '/pages/pay/index'
+        })
+     }
   },
   getCoupon(e){
      if (!wx.getStorageSync("token")) {
