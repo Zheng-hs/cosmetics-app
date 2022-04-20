@@ -145,13 +145,8 @@ Page({
         userName: this.userName
       }
       wx.setStorageSync("address", address);
-      wx.navigateTo({
-        url: '/pages/address/index',
-        success: (result) => {
-
-        },
-        fail: () => {},
-        complete: () => {}
+      wx.navigateBack({
+        delta: 1
       });
       wx.showToast({
         title: '添加成功',
@@ -188,10 +183,10 @@ Page({
         userName: this.userName
       }
       wx.setStorageSync("address", address);
-     wx.navigateBack({
-       delta: 1
-     });
-       
+      wx.navigateBack({
+        delta: 1
+      });
+
       wx.showToast({
         title: '修改成功',
         icon: 'success',
@@ -216,21 +211,21 @@ Page({
             method: "DELETE",
             data: b
           }).then(res => {
-           wx.navigateBack({
-             delta: 1
-           });
+            wx.navigateBack({
+              delta: 1
+            });
             wx.showToast({
               title: '删除成功',
               icon: 'success',
               // 防止用户手抖 疯狂点击按钮
               mask: true,
               success: (result) => {
-                
-              },            
+
+              },
               fail: () => {},
               complete: () => {}
             });
-             
+
 
           })
         } else if (res.cancel) {
