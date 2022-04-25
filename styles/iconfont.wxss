@@ -19,9 +19,9 @@
   font-family: "iconfont"; /* project id 3184923 */
   src: url("");
   src: url("?#iefix") format("embedded-opentype"),
-    url('//at.alicdn.com/t/font_3184923_nttnb5l692e.woff2?t=1648283425514') format('woff2'),
-       url('//at.alicdn.com/t/font_3184923_nttnb5l692e.woff?t=1648283425514') format('woff'),
-       url('//at.alicdn.com/t/font_3184923_nttnb5l692e.ttf?t=1648283425514') format('truetype'),
+   url('//at.alicdn.com/t/font_3184923_acclrwh9y0s.woff2?t=1650877460636') format('woff2'),
+       url('//at.alicdn.com/t/font_3184923_acclrwh9y0s.woff?t=1650877460636') format('woff'),
+       url('//at.alicdn.com/t/font_3184923_acclrwh9y0s.ttf?t=1650877460636') format('truetype'),
     url("#iconfont") format("svg");
 }
 
@@ -45,8 +45,8 @@
   content: "\e673";
 }
 
-.icon-kefu:before {
-  content: "\e601";
+.icon-kehufuwukefu:before {
+  content: "\e698";
 }
 
 .icon-fukuantongzhi:before {

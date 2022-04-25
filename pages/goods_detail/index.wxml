@@ -151,7 +151,7 @@
 </view>
 <view class="btn_tool">
     <view class="tool_item">
-        <view class="iconfont icon-kefu"></view>
+        <view class="iconfont icon-kehufuwukefu"></view>
         <view>客服</view>
         <button open-type="contact"></button>
     </view>
