@@ -87,7 +87,6 @@ Page({
       value
     } = e.target.dataset
     if (!name) return
-    console.log('format', name, value)
     this.editorCtx.format(name, value)
 
   },
@@ -185,6 +184,7 @@ Page({
   },
   sumbit() {
     const that = this
+    console.log(this.articlesClassifyId);
     if (this.goodsId === '') {
       request({
         url: '/api/v1/articles/add',
@@ -258,6 +258,7 @@ Page({
       index1,
       id1
     } = e.currentTarget.dataset;
+
     this.articlesClassifyId = id1
     this.setData({
       currentIndex1: index1

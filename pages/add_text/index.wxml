@@ -1,6 +1,6 @@
 <!-- pages/add_text/index.wxml -->
 <view class="goods_title">
-    <text class="title  {{index1===currentIndex1?'active' : ''}}" data-index1="{{index1}}" bindtap="chooseTag" wx:for="{{classify}}" wx:for-index="index1" wx:for-item="item" wx:key="articlesClassifyId" data-id1="{{item1.articlesClassifyId}}">{{item.articlesClassifyName}}</text>
+    <text class="title  {{index1===currentIndex1?'active' : ''}}" data-index1="{{index1}}" bindtap="chooseTag" wx:for="{{classify}}" wx:for-index="index1" wx:for-item="item" wx:key="articlesClassifyId" data-id1="{{item.articlesClassifyId}}">{{item.articlesClassifyName}}</text>
 </view>
 <!-- 富文本编辑器 start -->
 <view class="text_title">
