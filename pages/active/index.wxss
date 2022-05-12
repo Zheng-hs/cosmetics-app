@@ -143,7 +143,6 @@ page {
   white-space: nowrap;
   /*文字超出宽度则显示ellipsis省略号*/
   text-overflow: ellipsis;
-  width: 60%;
 }
 .wx-popup-btn {
   position: fixed;

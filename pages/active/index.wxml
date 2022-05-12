@@ -37,7 +37,7 @@
             <view class="wx-popup-con" wx:for="{{list}}" wx:key="userId"  wx:for-index="index">
                 <image class="" src="{{item.imgPath}}" />
                 <view class="no">NO.{{index+1}}</view>
-                <view class="name">{{item.username}}</view>
+                <view class="name">{{item.userNameCn}}</view>
             </view>
         </view>
     </view>
